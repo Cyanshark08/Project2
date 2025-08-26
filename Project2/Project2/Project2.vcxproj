@@ -123,7 +123,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp" />
+    <ClCompile Include="src\ConsoleApp.cpp" />
+    <ClCompile Include="src\PseudoRandom.cpp" />
+    <ClCompile Include="src\Quadratic.cpp" />
+    <ClCompile Include="src\Rational.cpp" />
+    <ClCompile Include="src\main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\ConsoleApp.h" />
+    <ClInclude Include="src\PseudoRandom.h" />
+    <ClInclude Include="src\Quadratic.h" />
+    <ClInclude Include="src\Rational.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
