@@ -40,6 +40,9 @@ enum class EProcessType
 	// Empty Process (is not tracking any time & does not have an ID)
 	NullProcess,
 
+	// Process without a name; has an ID and timer
+	UnnamedProcess,
+
 	// Valid Process (is tracking time & has an ID)
 	ValidProcess
 };
@@ -49,9 +52,10 @@ class Process
 public:
 	struct ProcessInfo
 	{
-		float ProcessDuration;
-		std::string ProcessName;
-		uint32_t ProcessID;
+		float processDuration;
+		std::string processName;
+		uint32_t processID;
+		size_t processIteration;
 	};
 public:
 
@@ -77,7 +81,7 @@ public:
 	* 
 	* @return
 	*/
-	Process(uint32_t m_ProcessID, const std::string& p_ProcessName);
+	Process(uint32_t m_ProcessID, size_t p_Iteration, const std::string& p_ProcessName);
 
 	ProcessInfo GetProcesseInfo() const;
 	bool HasEnded() const;
@@ -87,6 +91,7 @@ public:
 	uint32_t GetID() const;
 	bool IsValid() const;
 	EProcessType GetProcessType() const;
+	size_t GetIteration() const;
 	
 
 	/*
@@ -101,6 +106,13 @@ private:
 	bool m_ProcessEnded;
 	ProcessInfo m_ProcessInfo;
 	EProcessType m_ProcessType;
+};
+
+struct ProcessGroupStats
+{
+	size_t numberOfIterations;
+	Process fastestProcess;
+	float averageDuration;
 };
 
 enum class EBenchmarkSetting
@@ -125,7 +137,7 @@ public:
 	static void EndBenchmark();
 	static void EndBenchmark(uint8_t p_LogPrecision);
 
-
+	static void Terminate();
 
 public:
 	// Benchmark Exceptions

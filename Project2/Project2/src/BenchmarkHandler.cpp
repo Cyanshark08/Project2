@@ -5,7 +5,7 @@
 
 Process::Process()
 	: m_InitialTimePoint(),
-	m_ProcessInfo({ NULL, "", NULL}),
+	m_ProcessInfo({ NULL, "", NULL, NULL}),
 	m_ProcessEnded(false),
 	m_ProcessType(EProcessType::NullProcess)
 {}
@@ -13,14 +13,14 @@ Process::Process()
 
 Process::Process(uint32_t m_ProcessID)
 	: m_InitialTimePoint(std::chrono::high_resolution_clock::now()),
-	m_ProcessInfo({ NULL, "", m_ProcessID }),
+	m_ProcessInfo({ NULL, "", m_ProcessID, NULL }),
 	m_ProcessEnded(false),
 	m_ProcessType(EProcessType::ValidProcess)
 {}
 
-Process::Process(uint32_t m_ProcessID, const std::string& p_ProcessName)
+Process::Process(uint32_t m_ProcessID, size_t p_Iteration, const std::string& p_ProcessName)
 	: m_InitialTimePoint(std::chrono::high_resolution_clock::now()),
-	m_ProcessInfo({ NULL, p_ProcessName, m_ProcessID }),
+	m_ProcessInfo({ NULL, p_ProcessName, m_ProcessID, p_Iteration }),
 	m_ProcessEnded(false),
 	m_ProcessType(EProcessType::ValidProcess)
 {}
@@ -37,23 +37,23 @@ bool Process::HasEnded() const
 
 bool Process::HasName() const
 {
-	return m_ProcessInfo.ProcessName.length() != 0;
+	return m_ProcessInfo.processName.length() != 0;
 }
 
 float Process::GetDuration() const
 {
-	return m_ProcessInfo.ProcessDuration;
+	return m_ProcessInfo.processDuration;
 }
 
 std::string Process::GetName() const
 {
-	return m_ProcessInfo.ProcessName;
+	return m_ProcessInfo.processName;
 }
 
 
 uint32_t Process::GetID() const
 {
-	return m_ProcessInfo.ProcessID;
+	return m_ProcessInfo.processID;
 }
 
 bool Process::IsValid() const
@@ -66,13 +66,18 @@ EProcessType Process::GetProcessType() const
 	return m_ProcessType;
 }
 
+size_t Process::GetIteration() const
+{
+	return m_ProcessInfo.processIteration;
+}
+
 float Process::EndProcess()
 {
 	auto latestPoint = std::chrono::high_resolution_clock::now();
 	std::chrono::duration<float> duration = latestPoint - m_InitialTimePoint;
-	m_ProcessInfo.ProcessDuration = duration.count();
+	m_ProcessInfo.processDuration = duration.count();
 	m_ProcessEnded = true;
-	return m_ProcessInfo.ProcessDuration;
+	return m_ProcessInfo.processDuration;
 }
 
 uint32_t BenchmarkHandler::s_ProcessCounter = 0;
@@ -164,7 +169,7 @@ void BenchmarkHandler::BeginBenchmark(const std::string& p_ProcessName)
 		s_ProcessInstances[p_ProcessName] = 1;
 
 	s_ProcessCounter++;
-	s_ProcessStack.emplace(s_ProcessCounter, p_ProcessName);
+	s_ProcessStack.emplace(s_ProcessCounter, s_ProcessInstances[p_ProcessName], p_ProcessName);
 }
 
 void BenchmarkHandler::EndBenchmark()
@@ -191,6 +196,10 @@ void BenchmarkHandler::EndBenchmark(uint8_t p_LogPrecision)
 		s_ProcessStack.pop();
 }
 
+void BenchmarkHandler::Terminate()
+{
+}
+
 void BenchmarkHandler::LogProcess_File(uint8_t p_LogPrecision)
 {
 	std::ofstream loggingFile(s_LoggingFile, std::ios::app);
@@ -215,7 +224,7 @@ void BenchmarkHandler::LogProcess_File(uint8_t p_LogPrecision)
 		return;
 	}
 
-	ss << "Instance (" << s_ProcessInstances[s_ProcessStack.top().GetName()] << ") of Process 0x" << std::hex << s_ProcessStack.top().GetID() << " (\"" << s_ProcessStack.top().GetName() << "\") At Process Stack Layer " << s_ProcessStack.size() << " Ended and lasted " << std::fixed << std::setprecision(p_LogPrecision) << s_ProcessStack.top().GetDuration() << "s";
+	ss << "Instance (" << s_ProcessStack.top().GetIteration() << ") : Process 0x" << std::hex << s_ProcessStack.top().GetID() << " (\"" << s_ProcessStack.top().GetName() << "\") At Process Stack Layer " << s_ProcessStack.size() << " Ended and lasted " << std::fixed << std::setprecision(p_LogPrecision) << s_ProcessStack.top().GetDuration() << "s";
 	loggingFile << "\n\t"  << ss.str();
 	logHistoryFile << "\n\t\t" << ss.str();
 

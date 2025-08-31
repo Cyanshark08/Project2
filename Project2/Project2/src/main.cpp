@@ -11,20 +11,15 @@ namespace smth
 
 int main()
 {
-	BenchmarkHandler::BeginBenchmark("Benchmark");
-	for (size_t i = 0; i < 1000; i++)
-	{
-		BenchmarkHandler::BeginBenchmark("Func");
-		std::sqrt(i);
-		BenchmarkHandler::EndBenchmark();
-	}
-	//
-	BenchmarkHandler::EndBenchmark();
-
-	__debugbreak();
+		BENCHMARK_TEST(smth::func(100));
 }
 
 void smth::func(size_t i)
 {
-	float f = std::sqrtf(i);
+	BenchmarkHandler::BeginBenchmark("Func");
+	if (i != 0)
+		func(--i);
+	else
+		return;
+	BenchmarkHandler::EndBenchmark();
 }
