@@ -14,10 +14,14 @@ int main()
 	BenchmarkHandler::BeginBenchmark("Benchmark");
 	for (size_t i = 0; i < 1000; i++)
 	{
-		BENCHMARK_TEST(smth::func(i));
+		BenchmarkHandler::BeginBenchmark("Func");
+		std::sqrt(i);
+		BenchmarkHandler::EndBenchmark();
 	}
+	//
 	BenchmarkHandler::EndBenchmark();
 
+	__debugbreak();
 }
 
 void smth::func(size_t i)

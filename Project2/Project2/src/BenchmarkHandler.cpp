@@ -3,16 +3,26 @@
 #include <iomanip>
 #include <sstream>
 
+Process::Process()
+	: m_InitialTimePoint(),
+	m_ProcessInfo({ NULL, "", NULL}),
+	m_ProcessEnded(false),
+	m_ProcessType(EProcessType::NullProcess)
+{}
+
+
 Process::Process(uint32_t m_ProcessID)
 	: m_InitialTimePoint(std::chrono::high_resolution_clock::now()),
 	m_ProcessInfo({ NULL, "", m_ProcessID }),
-	m_ProcessEnded(false)
+	m_ProcessEnded(false),
+	m_ProcessType(EProcessType::ValidProcess)
 {}
 
 Process::Process(uint32_t m_ProcessID, const std::string& p_ProcessName)
 	: m_InitialTimePoint(std::chrono::high_resolution_clock::now()),
 	m_ProcessInfo({ NULL, p_ProcessName, m_ProcessID }),
-	m_ProcessEnded(false)
+	m_ProcessEnded(false),
+	m_ProcessType(EProcessType::ValidProcess)
 {}
 
 Process::ProcessInfo Process::GetProcesseInfo() const
@@ -46,6 +56,16 @@ uint32_t Process::GetID() const
 	return m_ProcessInfo.ProcessID;
 }
 
+bool Process::IsValid() const
+{
+	return m_ProcessType == EProcessType::ValidProcess;
+}
+
+EProcessType Process::GetProcessType() const
+{
+	return m_ProcessType;
+}
+
 float Process::EndProcess()
 {
 	auto latestPoint = std::chrono::high_resolution_clock::now();
@@ -58,6 +78,10 @@ float Process::EndProcess()
 uint32_t BenchmarkHandler::s_ProcessCounter = 0;
 std::stack<Process> BenchmarkHandler::s_ProcessStack;
 std::unordered_map<std::string, size_t> BenchmarkHandler::s_ProcessInstances;
+
+void BenchmarkHandler::InitializeSettings(EBenchmarkSetting p_Setting, std::string Arg...)
+{
+}
 
 void BenchmarkHandler::BeginBenchmark()
 {
@@ -132,9 +156,12 @@ void BenchmarkHandler::BeginBenchmark(const std::string& p_ProcessName)
 	if (s_ProcessInstances.find(p_ProcessName) != s_ProcessInstances.end() && s_AllowRepeatedBenchmarks)
 		s_ProcessInstances[p_ProcessName]++;
 	else if (s_ProcessInstances.find(p_ProcessName) != s_ProcessInstances.end() && !s_AllowRepeatedBenchmarks)
+	{
+		s_ProcessStack.emplace(Process());
 		return;
+	}
 	else
-		s_ProcessInstances[p_ProcessName] = 0;
+		s_ProcessInstances[p_ProcessName] = 1;
 
 	s_ProcessCounter++;
 	s_ProcessStack.emplace(s_ProcessCounter, p_ProcessName);
@@ -142,16 +169,26 @@ void BenchmarkHandler::BeginBenchmark(const std::string& p_ProcessName)
 
 void BenchmarkHandler::EndBenchmark()
 {
-	s_ProcessStack.top().EndProcess();
-	LogProcess_File(s_DefaultLogPrecision);
-	s_ProcessStack.pop();
+	if(s_ProcessStack.top().IsValid())
+	{
+		s_ProcessStack.top().EndProcess();
+		LogProcess_File(s_DefaultLogPrecision);
+		s_ProcessStack.pop();
+	}
+	else
+		s_ProcessStack.pop();
 }
 
 void BenchmarkHandler::EndBenchmark(uint8_t p_LogPrecision)
 {
-	s_ProcessStack.top().EndProcess();
-	LogProcess_File(p_LogPrecision);
-	s_ProcessStack.pop();
+	if (s_ProcessStack.top().IsValid())
+	{
+		s_ProcessStack.top().EndProcess();
+		LogProcess_File(p_LogPrecision);
+		s_ProcessStack.pop();
+	}
+	else
+		s_ProcessStack.pop();
 }
 
 void BenchmarkHandler::LogProcess_File(uint8_t p_LogPrecision)
