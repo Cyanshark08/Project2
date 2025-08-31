@@ -25,6 +25,11 @@ bool Process::HasEnded() const
 	return m_ProcessEnded;
 }
 
+bool Process::HasName() const
+{
+	return m_ProcessInfo.ProcessName.length() != 0;
+}
+
 float Process::GetDuration() const
 {
 	return m_ProcessInfo.ProcessDuration;
@@ -52,13 +57,19 @@ float Process::EndProcess()
 
 uint32_t BenchmarkHandler::s_ProcessCounter = 0;
 std::stack<Process> BenchmarkHandler::s_ProcessStack;
+std::unordered_map<std::string, size_t> BenchmarkHandler::s_ProcessInstances;
 
 void BenchmarkHandler::BeginBenchmark()
 {
 	
-	if (s_ProcessCounter == 0);
+	if (s_ProcessCounter == 0)
 	{
 		std::remove(s_LoggingFile);
+		std::ofstream logFile_Write(s_LoggingFile);
+
+		logFile_Write << "Current Log";
+
+		logFile_Write.close();
 
 		uint32_t logNum = 1;
 		std::ifstream historyLog_Read(s_LogHistoryFile);
@@ -82,14 +93,20 @@ void BenchmarkHandler::BeginBenchmark()
 	}
 
 	s_ProcessCounter++;
+	
 	s_ProcessStack.emplace(s_ProcessCounter);
 }
 
 void BenchmarkHandler::BeginBenchmark(const std::string& p_ProcessName)
 {
-	if (s_ProcessCounter == 0);
+	if (s_ProcessCounter == 0)
 	{
 		std::remove(s_LoggingFile);
+		std::ofstream logFile_Write(s_LoggingFile);
+
+		logFile_Write << "Current Log";
+
+		logFile_Write.close();
 
 		uint32_t logNum = 1;
 		std::ifstream historyLog_Read(s_LogHistoryFile);
@@ -112,6 +129,13 @@ void BenchmarkHandler::BeginBenchmark(const std::string& p_ProcessName)
 		historyLog_Write.close();
 	}
 
+	if (s_ProcessInstances.find(p_ProcessName) != s_ProcessInstances.end() && s_AllowRepeatedBenchmarks)
+		s_ProcessInstances[p_ProcessName]++;
+	else if (s_ProcessInstances.find(p_ProcessName) != s_ProcessInstances.end() && !s_AllowRepeatedBenchmarks)
+		return;
+	else
+		s_ProcessInstances[p_ProcessName] = 0;
+
 	s_ProcessCounter++;
 	s_ProcessStack.emplace(s_ProcessCounter, p_ProcessName);
 }
@@ -132,7 +156,7 @@ void BenchmarkHandler::EndBenchmark(uint8_t p_LogPrecision)
 
 void BenchmarkHandler::LogProcess_File(uint8_t p_LogPrecision)
 {
-	std::ofstream loggingFile(s_LoggingFile);
+	std::ofstream loggingFile(s_LoggingFile, std::ios::app);
 	std::ofstream logHistoryFile(s_LogHistoryFile, std::ios::app);
 	std::stringstream ss;
 
@@ -154,8 +178,8 @@ void BenchmarkHandler::LogProcess_File(uint8_t p_LogPrecision)
 		return;
 	}
 
-	ss << "Process #" << s_ProcessStack.top().GetID() << " (" << s_ProcessStack.top().GetName() << ") At Process Stack Instance (" << s_ProcessStack.size() << ") Ended and lasted " << std::fixed << std::setprecision(p_LogPrecision) << s_ProcessStack.top().GetDuration() << "s";
-	loggingFile << "Current Log\n\t"  << ss.str();
+	ss << "Instance (" << s_ProcessInstances[s_ProcessStack.top().GetName()] << ") of Process 0x" << std::hex << s_ProcessStack.top().GetID() << " (\"" << s_ProcessStack.top().GetName() << "\") At Process Stack Layer " << s_ProcessStack.size() << " Ended and lasted " << std::fixed << std::setprecision(p_LogPrecision) << s_ProcessStack.top().GetDuration() << "s";
+	loggingFile << "\n\t"  << ss.str();
 	logHistoryFile << "\n\t\t" << ss.str();
 
 

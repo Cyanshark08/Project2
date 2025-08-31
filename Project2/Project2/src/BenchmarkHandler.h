@@ -2,6 +2,8 @@
 #include <chrono>
 #include <stack>
 #include <string>
+#include <unordered_map>
+#include "ExceptionInterface.h"
 
 #define BENCHMARK true
 
@@ -28,6 +30,8 @@
 	#define BENCHMARK_TEST_PRES(foo, precision) foo
 	#endif
 #endif
+
+// TODO: Implememt Process Counter
 
 class Process
 {
@@ -59,6 +63,7 @@ public:
 
 	ProcessInfo GetProcesseInfo() const;
 	bool HasEnded() const;
+	bool HasName() const;
 	float GetDuration() const;
 	std::string GetName() const;
 	uint32_t GetID() const;
@@ -87,6 +92,9 @@ public:
 	static void EndBenchmark();
 	static void EndBenchmark(uint8_t p_LogPrecision);
 
+public:
+	// Benchmark Exceptions
+
 private:
 	static void LogProcess_File(uint8_t p_LogPrecision);
 
@@ -96,6 +104,8 @@ private:
 	constexpr static const uint8_t s_DefaultLogPrecision = 7;
 	static std::stack<Process> s_ProcessStack;
 	static uint32_t s_ProcessCounter;
+	constexpr static const bool s_AllowRepeatedBenchmarks = true;
+	static std::unordered_map<std::string, size_t> s_ProcessInstances;
 
 };
 

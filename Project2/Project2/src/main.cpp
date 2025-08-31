@@ -11,11 +11,11 @@ namespace smth
 
 int main()
 {
-	BenchmarkHandler::BeginBenchmark("something");
-
+	BenchmarkHandler::BeginBenchmark("Benchmark");
 	for (size_t i = 0; i < 1000; i++)
-		smth::func(i);
-
+	{
+		BENCHMARK_TEST(smth::func(i));
+	}
 	BenchmarkHandler::EndBenchmark();
 
 }
