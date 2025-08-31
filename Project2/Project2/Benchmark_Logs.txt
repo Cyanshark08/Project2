@@ -1,0 +1,2 @@
+Current Log
+	Process #1 (something) At Process Stack Instance (1) Ended and lasted 0.0000199s

@@ -1,0 +1,11 @@
+Log History
+	Log #1
+		Process #1 (smth::func) At Process Stack Instance (1) Ended and lasted 0.0000088s
+	Log #2
+		Process #1 (smth::func(1)) At Process Stack Instance (1) Ended and lasted 0.0000078s
+	Log #3
+		Process #1 (smth::func(1)) At Process Stack Instance (1) Ended and lasted 0.0000103s
+	Log #4
+		Process #1 () At Process Stack Instance (1) Ended and lasted 0.0000247s
+	Log #5
+		Process #1 (something) At Process Stack Instance (1) Ended and lasted 0.0000199s
