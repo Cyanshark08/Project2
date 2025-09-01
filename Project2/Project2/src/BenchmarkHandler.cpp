@@ -84,7 +84,7 @@ uint32_t BenchmarkHandler::s_ProcessCounter = 0;
 std::stack<Process> BenchmarkHandler::s_ProcessStack;
 std::unordered_map<std::string, size_t> BenchmarkHandler::s_ProcessInstances;
 
-void BenchmarkHandler::InitializeSettings(EBenchmarkSetting p_Setting, std::string Arg...)
+void BenchmarkHandler::InitializeSettings(EBenchmarkSetting p_Setting, ...)
 {
 }
 
@@ -224,7 +224,7 @@ void BenchmarkHandler::LogProcess_File(uint8_t p_LogPrecision)
 		return;
 	}
 
-	ss << "Instance (" << s_ProcessStack.top().GetIteration() << ") : Process 0x" << std::hex << s_ProcessStack.top().GetID() << " (\"" << s_ProcessStack.top().GetName() << "\") At Process Stack Layer " << s_ProcessStack.size() << " Ended and lasted " << std::fixed << std::setprecision(p_LogPrecision) << s_ProcessStack.top().GetDuration() << "s";
+	ss << "Instance (" << s_ProcessStack.top().GetIteration() << ") : Exited Process 0x" << std::hex << s_ProcessStack.top().GetID() << " (\"" << s_ProcessStack.top().GetName() << "\") At Process Stack Layer 0x" << s_ProcessStack.size() << " : Process Lasted " << std::fixed << std::setprecision(p_LogPrecision) << s_ProcessStack.top().GetDuration() << "s";
 	loggingFile << "\n\t"  << ss.str();
 	logHistoryFile << "\n\t\t" << ss.str();
 

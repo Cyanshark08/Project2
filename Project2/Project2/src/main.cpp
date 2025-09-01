@@ -1,6 +1,4 @@
-#include "BenchmarkHandler.h"
-#include <string>
-#include <cmath>
+#include "ConsoleApp.h"
 
 #define BENCHMARK true
 
@@ -11,15 +9,10 @@ namespace smth
 
 int main()
 {
-		BENCHMARK_TEST(smth::func(100));
-}
+	ConsoleApp app;
 
-void smth::func(size_t i)
-{
-	BenchmarkHandler::BeginBenchmark("Func");
-	if (i != 0)
-		func(--i);
-	else
-		return;
-	BenchmarkHandler::EndBenchmark();
+	do
+	{
+		app.ManageApp();
+	} while (app.GetAppState() != EAppState::Closed);
 }

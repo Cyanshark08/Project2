@@ -6,6 +6,7 @@
 #include <string>
 #include <unordered_map>
 #include "ExceptionInterface.h"
+#include <varargs.h>
 
 #define BENCHMARK true
 
@@ -129,7 +130,7 @@ class BenchmarkHandler
 public:
 
 	//Allow programmers to benchmark only specific processes by Name
-	static void InitializeSettings(EBenchmarkSetting p_Setting, std::string Arg...);
+	static void InitializeSettings(EBenchmarkSetting p_Setting, ...);
 
 	static void BeginBenchmark();
 	static void BeginBenchmark(const std::string& p_ProcessName);
@@ -137,6 +138,7 @@ public:
 	static void EndBenchmark();
 	static void EndBenchmark(uint8_t p_LogPrecision);
 
+	//Show Data Analytics
 	static void Terminate();
 
 public:
