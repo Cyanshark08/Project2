@@ -62,6 +62,21 @@ bool Process::IsReal() const
 	return m_ProcessType != EProcessType::NullProcess;
 }
 
+bool Process::IsValid() const
+{
+	return m_ProcessType == EProcessType::ValidProcess;
+}
+
+bool Process::IsNull() const
+{
+	return m_ProcessType == EProcessType::NullProcess;
+}
+
+EProcessType Process::GetType() const
+{
+	return m_ProcessType;
+}
+
 EProcessType Process::GetProcessType() const
 {
 	return m_ProcessType;
@@ -83,7 +98,7 @@ float Process::EndProcess()
 
 uint32_t BenchmarkHandler::s_ProcessCounter = 0;
 std::stack<Process> BenchmarkHandler::s_ProcessStack{};
-std::unordered_map<std::string, size_t> BenchmarkHandler::s_ProcessInstances{};
+std::unordered_map<std::string, ProcessGroupStats> BenchmarkHandler::s_ProcessGroups{};
 EBenchmarkSetting BenchmarkHandler::m_Setting = EBenchmarkSetting::Any;
 std::unordered_map<std::string, int> BenchmarkHandler::s_WhitelistedProcesses{};
 
@@ -95,14 +110,14 @@ void BenchmarkHandler::InitializeSettings(EBenchmarkSetting p_Setting, ...)
 
 		va_list arg;
 		va_start(arg, p_Setting);
-
-		int count = va_arg(arg, int);
-		for (int i = 0; i < count; i++)
+		
+		char* strBuffer = va_arg(arg, char*);
+		while(strBuffer)
 		{
-			char* str = va_arg(arg, char*);
-			//
-			s_WhitelistedProcesses[(std::string)str] = NULL;
-		}
+			s_WhitelistedProcesses[strBuffer] = NULL;
+			strBuffer = va_arg(arg, char*);
+		} 
+		
 		va_end(arg);
 	}
 }
@@ -189,42 +204,59 @@ void BenchmarkHandler::BeginBenchmark(const std::string& p_ProcessName)
 		return;
 	}
 
-	if (s_ProcessInstances.find(p_ProcessName) != s_ProcessInstances.end() && s_AllowRepeatedBenchmarks)
-		s_ProcessInstances[p_ProcessName]++;
-	else if (s_ProcessInstances.find(p_ProcessName) != s_ProcessInstances.end() && !s_AllowRepeatedBenchmarks)
+	if (s_ProcessGroups.find(p_ProcessName) != s_ProcessGroups.end() && s_AllowRepeatedBenchmarks)
+		s_ProcessGroups[p_ProcessName].numberOfIterations++;
+	else if (s_ProcessGroups.find(p_ProcessName) != s_ProcessGroups.end() && !s_AllowRepeatedBenchmarks)
 	{
 		s_ProcessStack.emplace(Process());
 		return;
 	}
 	else
-		s_ProcessInstances[p_ProcessName] = 1;
+		s_ProcessGroups[p_ProcessName].numberOfIterations = 1;
 
 	s_ProcessCounter++;
-	s_ProcessStack.emplace(s_ProcessCounter, s_ProcessInstances[p_ProcessName], p_ProcessName);
+	s_ProcessStack.emplace(s_ProcessCounter, s_ProcessGroups[p_ProcessName].numberOfIterations, p_ProcessName);
+
 }
 
 void BenchmarkHandler::EndBenchmark()
 {
-	if(s_ProcessStack.top().IsReal())
+	switch (s_ProcessStack.top().GetProcessType())
 	{
+	case EProcessType::ValidProcess:
 		s_ProcessStack.top().EndProcess();
 		LogProcess_File(s_DefaultLogPrecision);
 		s_ProcessStack.pop();
-	}
-	else
+		break;
+	case EProcessType::UnnamedProcess:
+		s_ProcessStack.top().EndProcess();
+		LogProcess_File(s_DefaultLogPrecision);
 		s_ProcessStack.pop();
+		break;
+	case EProcessType::NullProcess:
+		s_ProcessStack.pop();
+		break;
+	}
 }
 
 void BenchmarkHandler::EndBenchmark(uint8_t p_LogPrecision)
-{
-	if (s_ProcessStack.top().IsReal())
+{		
+	switch (s_ProcessStack.top().GetProcessType())
 	{
+	case EProcessType::ValidProcess:
 		s_ProcessStack.top().EndProcess();
 		LogProcess_File(p_LogPrecision);
 		s_ProcessStack.pop();
-	}
-	else
+		break;
+	case EProcessType::UnnamedProcess:
+		s_ProcessStack.top().EndProcess();
+		LogProcess_File(p_LogPrecision);
 		s_ProcessStack.pop();
+		break;
+	case EProcessType::NullProcess:
+		s_ProcessStack.pop();
+		break;
+	}
 }
 
 void BenchmarkHandler::Terminate()
@@ -262,4 +294,8 @@ void BenchmarkHandler::LogProcess_File(uint8_t p_LogPrecision)
 
 	loggingFile.close();
 	logHistoryFile.close();
+}
+
+void BenchmarkHandler::LogProcessStats_File()
+{
 }

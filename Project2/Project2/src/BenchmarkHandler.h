@@ -91,6 +91,9 @@ public:
 	std::string GetName() const;
 	uint32_t GetID() const;
 	bool IsReal() const;
+	bool IsValid() const;
+	bool IsNull() const;
+	EProcessType GetType() const;
 	EProcessType GetProcessType() const;
 	size_t GetIteration() const;
 	
@@ -146,6 +149,7 @@ public:
 
 private:
 	static void LogProcess_File(uint8_t p_LogPrecision);
+	static void LogProcessStats_File();
 
 private:
 	constexpr static const char* s_LoggingFile = "Benchmark_Logs.txt";
@@ -156,7 +160,7 @@ private:
 	static uint32_t s_ProcessCounter;
 
 	constexpr static const bool s_AllowRepeatedBenchmarks = true;
-	static std::unordered_map<std::string, size_t> s_ProcessInstances;
+	static std::unordered_map<std::string, ProcessGroupStats> s_ProcessGroups;
 
 	static EBenchmarkSetting m_Setting;
 	static std::unordered_map<std::string, int> s_WhitelistedProcesses;
