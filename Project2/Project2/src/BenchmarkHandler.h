@@ -158,7 +158,8 @@ private:
 	constexpr static const bool s_AllowRepeatedBenchmarks = true;
 	static std::unordered_map<std::string, size_t> s_ProcessInstances;
 
-	constexpr static const EBenchmarkSetting m_Setting = EBenchmarkSetting::Any;
+	static EBenchmarkSetting m_Setting;
+	static std::vector<std::string> s_WhitelistedProcesses;
 
 };
 

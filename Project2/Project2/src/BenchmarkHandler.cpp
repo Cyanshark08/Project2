@@ -2,6 +2,7 @@
 #include <fstream>
 #include <iomanip>
 #include <sstream>
+#include <varargs.h>
 
 Process::Process()
 	: m_InitialTimePoint(),
@@ -15,7 +16,7 @@ Process::Process(uint32_t m_ProcessID)
 	: m_InitialTimePoint(std::chrono::high_resolution_clock::now()),
 	m_ProcessInfo({ NULL, "", m_ProcessID, NULL }),
 	m_ProcessEnded(false),
-	m_ProcessType(EProcessType::ValidProcess)
+	m_ProcessType(EProcessType::UnnamedProcess)
 {}
 
 Process::Process(uint32_t m_ProcessID, size_t p_Iteration, const std::string& p_ProcessName)
@@ -81,11 +82,22 @@ float Process::EndProcess()
 }
 
 uint32_t BenchmarkHandler::s_ProcessCounter = 0;
-std::stack<Process> BenchmarkHandler::s_ProcessStack;
-std::unordered_map<std::string, size_t> BenchmarkHandler::s_ProcessInstances;
+std::stack<Process> BenchmarkHandler::s_ProcessStack{};
+std::unordered_map<std::string, size_t> BenchmarkHandler::s_ProcessInstances{};
+EBenchmarkSetting BenchmarkHandler::m_Setting = EBenchmarkSetting::Any;
+std::vector<std::string> BenchmarkHandler::s_WhitelistedProcesses{};
 
 void BenchmarkHandler::InitializeSettings(EBenchmarkSetting p_Setting, ...)
 {
+	if(p_Setting != EBenchmarkSetting::Any)
+	{
+		p_Setting = EBenchmarkSetting::Specific;
+		va_list arg;
+		va_start(arg);
+		size_t count = va_arg(arg, size_t);
+		for (size_t i = 0; i < count; i++)
+			s_WhitelistedProcesses.emplace_back(va_arg(arg, const std::string));
+	}
 }
 
 void BenchmarkHandler::BeginBenchmark()
