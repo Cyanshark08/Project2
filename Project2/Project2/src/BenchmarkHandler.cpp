@@ -2,7 +2,7 @@
 #include <fstream>
 #include <iomanip>
 #include <sstream>
-#include <varargs.h>
+#include <stdarg.h>
 
 Process::Process()
 	: m_InitialTimePoint(),
@@ -57,9 +57,9 @@ uint32_t Process::GetID() const
 	return m_ProcessInfo.processID;
 }
 
-bool Process::IsValid() const
+bool Process::IsReal() const
 {
-	return m_ProcessType == EProcessType::ValidProcess;
+	return m_ProcessType != EProcessType::NullProcess;
 }
 
 EProcessType Process::GetProcessType() const
@@ -85,18 +85,25 @@ uint32_t BenchmarkHandler::s_ProcessCounter = 0;
 std::stack<Process> BenchmarkHandler::s_ProcessStack{};
 std::unordered_map<std::string, size_t> BenchmarkHandler::s_ProcessInstances{};
 EBenchmarkSetting BenchmarkHandler::m_Setting = EBenchmarkSetting::Any;
-std::vector<std::string> BenchmarkHandler::s_WhitelistedProcesses{};
+std::unordered_map<std::string, int> BenchmarkHandler::s_WhitelistedProcesses{};
 
 void BenchmarkHandler::InitializeSettings(EBenchmarkSetting p_Setting, ...)
 {
 	if(p_Setting != EBenchmarkSetting::Any)
 	{
-		p_Setting = EBenchmarkSetting::Specific;
+		m_Setting = EBenchmarkSetting::Specific;
+
 		va_list arg;
-		va_start(arg);
-		size_t count = va_arg(arg, size_t);
-		for (size_t i = 0; i < count; i++)
-			s_WhitelistedProcesses.emplace_back(va_arg(arg, const std::string));
+		va_start(arg, p_Setting);
+
+		int count = va_arg(arg, int);
+		for (int i = 0; i < count; i++)
+		{
+			char* str = va_arg(arg, char*);
+			//
+			s_WhitelistedProcesses[(std::string)str] = NULL;
+		}
+		va_end(arg);
 	}
 }
 
@@ -131,6 +138,12 @@ void BenchmarkHandler::BeginBenchmark()
 		historyLog_Write << "\n\tLog #" << logNum;
 
 		historyLog_Write.close();
+	}
+
+	if (m_Setting == EBenchmarkSetting::Specific)
+	{
+		s_ProcessStack.emplace(Process());
+		return;
 	}
 
 	s_ProcessCounter++;
@@ -169,6 +182,12 @@ void BenchmarkHandler::BeginBenchmark(const std::string& p_ProcessName)
 
 		historyLog_Write.close();
 	}
+	
+	if (m_Setting == EBenchmarkSetting::Specific && s_WhitelistedProcesses.find(p_ProcessName) == s_WhitelistedProcesses.end())
+	{
+		s_ProcessStack.emplace(Process());
+		return;
+	}
 
 	if (s_ProcessInstances.find(p_ProcessName) != s_ProcessInstances.end() && s_AllowRepeatedBenchmarks)
 		s_ProcessInstances[p_ProcessName]++;
@@ -186,7 +205,7 @@ void BenchmarkHandler::BeginBenchmark(const std::string& p_ProcessName)
 
 void BenchmarkHandler::EndBenchmark()
 {
-	if(s_ProcessStack.top().IsValid())
+	if(s_ProcessStack.top().IsReal())
 	{
 		s_ProcessStack.top().EndProcess();
 		LogProcess_File(s_DefaultLogPrecision);
@@ -198,7 +217,7 @@ void BenchmarkHandler::EndBenchmark()
 
 void BenchmarkHandler::EndBenchmark(uint8_t p_LogPrecision)
 {
-	if (s_ProcessStack.top().IsValid())
+	if (s_ProcessStack.top().IsReal())
 	{
 		s_ProcessStack.top().EndProcess();
 		LogProcess_File(p_LogPrecision);

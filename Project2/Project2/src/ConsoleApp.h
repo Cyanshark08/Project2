@@ -25,7 +25,7 @@ public:
 	void ManageApp();
 
 	void Clean();
-	
+
 	EAppState GetAppState() const;
 
 	~ConsoleApp();
@@ -39,8 +39,8 @@ private:
 	EAppState m_AppState;
 	EMenuState m_MenuState;
 
-	Quadratic m_QuadraticExpression;
-	PseudoRandom m_RandomNumber;
-	Rational m_RationalNumber;
+	Quadratic m_QuadraticExpression{};
+	PseudoRandom m_RandomNumber{};
+	Rational m_RationalNumber{};
 };
 

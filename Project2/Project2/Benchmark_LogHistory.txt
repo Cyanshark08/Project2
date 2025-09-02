@@ -825,3 +825,16 @@ Log History
 		Instance (2) : Exited Process 0x3 ("ben") At Process Stack Layer 0x3 : Process Lasted 0.0435784s
 		Instance (1) : Exited Process 0x2 ("ben") At Process Stack Layer 0x2 : Process Lasted 0.0439066s
 		Instance (1) : Exited Process 0x1 ("frost") At Process Stack Layer 0x1 : Process Lasted 0.0446189s
+	Log #12
+		Instance (1) : Exited Process 0x2 ("Ben") At Process Stack Layer 0x1 : Process Lasted 0.0031975s
+		Instance (1) : Exited Process 0x3 ("Benchmark") At Process Stack Layer 0x1 : Process Lasted 6.6692233s
+	Log #13
+		Instance (1) : Exited Process 0x2 ("Benchmark") At Process Stack Layer 0x1 : Process Lasted 0.6275688s
+		Instance (1) : Exited Process 0x3 ("Ben") At Process Stack Layer 0x1 : Process Lasted 0.0002231s
+	Log #14
+	Log #15
+		Instance (1) : Exited Process 0x1 ("Benchmark") At Process Stack Layer 0x1 : Process Lasted 0.3470247s
+	Log #16
+		Instance (0) : Exited Process 0x1 ("") At Process Stack Layer 0x1 : Process Lasted 0.3972066s
+		Instance (1) : Exited Process 0x2 ("Benchmark") At Process Stack Layer 0x1 : Process Lasted 0.4015906s
+		Instance (1) : Exited Process 0x3 ("Ben") At Process Stack Layer 0x1 : Process Lasted 0.0001022s

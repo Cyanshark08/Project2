@@ -63,7 +63,7 @@ public:
 	/*
 	* 
 	* 
-	* @return Null/Process/Invalid Process
+	* @return Null/Empty/Invalid Process
 	*/
 	Process();
 
@@ -90,7 +90,7 @@ public:
 	float GetDuration() const;
 	std::string GetName() const;
 	uint32_t GetID() const;
-	bool IsValid() const;
+	bool IsReal() const;
 	EProcessType GetProcessType() const;
 	size_t GetIteration() const;
 	
@@ -159,7 +159,7 @@ private:
 	static std::unordered_map<std::string, size_t> s_ProcessInstances;
 
 	static EBenchmarkSetting m_Setting;
-	static std::vector<std::string> s_WhitelistedProcesses;
+	static std::unordered_map<std::string, int> s_WhitelistedProcesses;
 
 };
 
