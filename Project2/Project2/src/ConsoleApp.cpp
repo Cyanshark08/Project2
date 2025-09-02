@@ -33,7 +33,7 @@ void ConsoleApp::DisplayMenu()
 	{
 	case EMenuState::Main:
 		puts("");
-		puts("\tCMPR131 Chapter 2 - ADT Assignments by ____ (9 / 1 / 2023)");
+		puts("\tCMPR131 Chapter 2 - ADT Assignments by ____ (9 / 1 / 2025)");
 		puts(("\t" + std::string(110, 205)).c_str());
 		puts("\t1 > Quadratic Expression");
 		puts("\t2 > Pseudorandom");
@@ -59,15 +59,52 @@ void ConsoleApp::DisplayMenu()
 		puts(("\t" + std::string(110, 196)).c_str());
 		puts("\t0. return");
 		puts(("\t" + std::string(110, 205)).c_str());
-		printf("\tOption :");
+		printf("\tOption : ");
 
 		input = Input::inputChar("", "DABCENR0");
 		break;
 	case EMenuState::Rational:
-		printf("");
+		puts("");
+		puts("\t3 > Rational Number menu");
+		puts(("\t" + std::string(110, 205)).c_str());
+		puts("\tA.enter values of rational number R1");
+		puts("\tB.display R1");
+		puts("\tC.enter values for  rational number R2");
+		puts("\tD.display R2");
+		puts("\tE.multiplication of 2 rational numbers(R1 * R2)");
+		puts("\tF.division of 2 rational numbers(R1 / R2)");
+		puts("\tG.addition of 2 rational numbers(R1 + R2)");
+		puts("\tH.subtraction 2 rational numbers(R1 - R2)");
+		puts("\tI. (R1 == R2)");
+		puts("\tJ. (R1 < R2)");
+		puts(("\t" + std::string(110, 196)).c_str());
+		puts("\t0. return");
+		puts(("\t" + std::string(110, 205)).c_str());
+		printf("\tOption : ");
+
+		input = Input::inputChar("", "ABCDEFGHIJ0");
 		break;
 	case EMenuState::PseudoRandom:
-		printf("");
+		puts("");
+		puts("\t2 > Pseudorandom menu");
+		puts(("\t" + std::string(110, 205)).c_str());
+		puts("\tA.get seed");
+		puts("\tB.set seed");
+		puts("\tC.get multiplier");
+		puts("\tD.set multiplier");
+		puts("\tE.get modulus");
+		puts("\tF.set modulus");
+		puts("\tG.get increment");
+		puts("\tH.set increment");
+		puts("\tI.get next number");
+		puts("\tJ.get indirect next number");
+		puts("\tK.run experiment with different values(mutliplier, increment, and modulus)");
+		puts(("\t" + std::string(110, 196)).c_str());
+		puts("\t0. return");
+		puts(("\t" + std::string(110, 205)).c_str());
+		printf("\tOption : ");
+
+		input = Input::inputChar("", "ABCDEFGHIJK0");
 		break;
 	}
 
