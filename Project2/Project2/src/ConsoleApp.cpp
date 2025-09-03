@@ -8,7 +8,7 @@ ConsoleApp::ConsoleApp()
 	: m_AppState(EAppState::Running),
 	m_MenuState(EMenuState::Main)
 {
-	BenchmarkHandler::InitializeSettings(EBenchmarkSetting::Any, 1, "Benchmark");
+	BenchmarkHandler::InitializeSettings(EBenchmarkSetting::Specific, "Benchmark", "Ben", NULL);
 }
 
 void ConsoleApp::ManageApp()
