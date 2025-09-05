@@ -1,8 +1,15 @@
 #include "Rational.h"
 
+/*
+* PreCondition: N/A
+* 
+* PostCondition: reset the numerator and denominator
+*/
 void Rational::Clear()
 {
-
+	numerator = 0;
+	denominator = 1;
+	simplify();
 }
 
 /*
@@ -118,6 +125,11 @@ int Rational::getDenominator() const
 	return denominator;
 }
 
+std::string Rational::to_string() const
+{
+	return std::to_string(numerator) + "/" + std::to_string(denominator);
+}
+
 Rational Rational::operator *(const Rational &right)
 {
 	Rational temp;
@@ -170,10 +182,4 @@ bool Rational::operator ==(const Rational &right)
 bool Rational::operator <(const Rational &right)
 {
 	return this->getNumerator() * right.getDenominator() < this->getDenominator() * right.getNumerator();
-}
-
-std::ostream &operator <<(std::ostream &out, const Rational &obj)
-{
-	out << obj.getNumerator() << "/" << obj.getDenominator();
-	return out;
 }

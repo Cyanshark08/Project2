@@ -41,6 +41,7 @@ private:
 
 	Quadratic m_QuadraticExpression{};
 	PseudoRandom m_RandomNumber{};
-	Rational m_RationalNumber{};
+	Rational m_RationalNumber1{};
+	Rational m_RationalNumber2{};
 };
 

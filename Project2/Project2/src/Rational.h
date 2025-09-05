@@ -30,7 +30,6 @@ public:
 		}
 	};
 
-	
 	Rational();
 	Rational(int32_t newNumerator, int32_t newDenominator);
 
@@ -38,6 +37,7 @@ public:
 	void setDenominator(int32_t newDenominator);
 	int32_t getNumerator() const;
 	int32_t getDenominator() const;
+	std::string to_string() const;
 
 	// overloaded operators
 	Rational operator *(const Rational &right);
@@ -46,7 +46,6 @@ public:
 	Rational operator -(const Rational &left);
 	bool operator ==(const Rational &right);
 	bool operator <(const Rational &right);
-	friend std::ostream &operator <<(std::ostream &out, const Rational &obj);
 
 private:
 	int32_t numerator;
