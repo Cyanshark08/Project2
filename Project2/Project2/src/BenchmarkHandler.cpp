@@ -4,6 +4,8 @@
 #include <sstream>
 #include <stdarg.h>
 
+#if BENCHMARK == 1
+
 Process::Process()
 	: m_InitialTimePoint(),
 	m_ProcessInfo({ NULL, "", NULL, NULL}),
@@ -226,6 +228,7 @@ void BenchmarkHandler::EndBenchmark()
 	case EProcessType::ValidProcess:
 		s_ProcessStack.top().EndProcess();
 		LogProcess_File(s_DefaultLogPrecision);
+		s_ProcessGroups[s_ProcessStack.top().GetName()].averageDuration;
 		s_ProcessStack.pop();
 		break;
 	case EProcessType::UnnamedProcess:
@@ -261,6 +264,7 @@ void BenchmarkHandler::EndBenchmark(uint8_t p_LogPrecision)
 
 void BenchmarkHandler::Terminate()
 {
+	LogProcessStats_File();
 }
 
 void BenchmarkHandler::LogProcess_File(uint8_t p_LogPrecision)
@@ -298,4 +302,7 @@ void BenchmarkHandler::LogProcess_File(uint8_t p_LogPrecision)
 
 void BenchmarkHandler::LogProcessStats_File()
 {
+
 }
+
+#endif

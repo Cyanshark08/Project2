@@ -24,15 +24,15 @@ public:
 
 	float EvaluateAt(float p_Arg) const;
 
-	float operator()(float p_Arg) const;
-	float& operator[](size_t p_CoeffNum);
-
 	size_t GetNumOfRoots() const;
 	Roots GetRoots() const;
 
 	std::string to_string() const;
 
 	void Clear();
+
+	float operator()(float p_Arg) const;
+	float& operator[](size_t p_CoeffNum);
 	
 private:
 	float GetDiscriminant() const;

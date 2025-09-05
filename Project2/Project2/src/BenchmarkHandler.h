@@ -8,8 +8,6 @@
 #include "ExceptionInterface.h"
 #include <varargs.h>
 
-#define BENCHMARK true
-
 #if BENCHMARK == true
 	#ifndef BENCHMARK_TEST(foo)
 	#define BENCHMARK_TEST(foo) BenchmarkHandler::BeginBenchmark(#foo);\
@@ -23,6 +21,16 @@
 												BenchmarkHandler::EndBenchmark(precision)
 	#endif
 
+	#ifndef BENCHMARK_BEGIN(x)
+	#define BENCHMARK_BEGIN(x) BenchmarkHandler::BeginBenchmark(x)
+	#endif	
+
+	#ifndef BENCHMARK_END
+	#define BENCHMARK_END BenchmarkHandler::EndBenchmark()
+	#endif	
+
+
+
 
 #else
 	#ifndef BENCHMARK_TEST(foo)
@@ -33,6 +41,8 @@
 	#define BENCHMARK_TEST_PRES(foo, precision) foo
 	#endif
 #endif
+
+#if BENCHMARK == true
 
 // TODO: Implememt Process Counter
 
@@ -167,3 +177,4 @@ private:
 
 };
 
+#endif

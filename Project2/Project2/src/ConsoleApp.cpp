@@ -7,9 +7,7 @@
 ConsoleApp::ConsoleApp()
 	: m_AppState(EAppState::Running),
 	m_MenuState(EMenuState::Main)
-{
-	BenchmarkHandler::InitializeSettings(EBenchmarkSetting::Specific, "Benchmark", "Ben", NULL);
-}
+{}
 
 void ConsoleApp::ManageApp()
 {
@@ -135,6 +133,9 @@ void ConsoleApp::HandleInput(char p_Input)
 		}
 		break;
 	case EMenuState::Quadratic:
+
+		printf("\n\t");
+
 		switch (p_Input)
 		{
 		case 'D':
@@ -147,22 +148,16 @@ void ConsoleApp::HandleInput(char p_Input)
 			m_QuadraticExpression.SetAt(EQuadraticCoeff::B, (float)Input::inputDouble("\n\t"));
 			break;
 		case 'C':
-			BenchmarkHandler::BeginBenchmark();
 			m_QuadraticExpression.SetAt(EQuadraticCoeff::C, (float)Input::inputDouble("\n\t"));
-			BenchmarkHandler::EndBenchmark();
 			break;
 		case 'E':
 		{
-			BenchmarkHandler::BeginBenchmark("Benchmark");
-			auto temp = (float)Input::inputDouble("");
-			printf("\n\tf(%.3f) = %.3f", temp, m_QuadraticExpression.EvaluateAt(temp));
-			BenchmarkHandler::EndBenchmark();
+			float temp = (float)Input::inputDouble("");
+			printf("\n\tf(%.3f) = %.3f", temp, m_QuadraticExpression(temp));
 		}
 			break;
 		case 'N':
-			BenchmarkHandler::BeginBenchmark("Ben");
 			printf("\n\tNumber of Roots : %d", m_QuadraticExpression.GetNumOfRoots());
-			BenchmarkHandler::EndBenchmark();
 			break;
 		case 'R':
 			if(m_QuadraticExpression.GetNumOfRoots() > 1)
@@ -177,8 +172,14 @@ void ConsoleApp::HandleInput(char p_Input)
 			m_MenuState = EMenuState::Main;
 			break;
 		}
+
+		printf("\n\t");
+
 		break;
 	case EMenuState::Rational:
+
+		printf("\n\t");
+
 		switch (p_Input)
 		{
 		case '0':
@@ -186,8 +187,14 @@ void ConsoleApp::HandleInput(char p_Input)
 			m_MenuState = EMenuState::Main;
 			break;
 		}
+
+		printf("\n\t");
+
 		break;
 	case EMenuState::PseudoRandom:
+
+		printf("\n\t");
+
 		switch (p_Input)
 		{
 		case '0':
@@ -195,14 +202,16 @@ void ConsoleApp::HandleInput(char p_Input)
 			m_MenuState = EMenuState::Main;
 			break;
 		}
+
+		printf("\n\t");
+
 		break;
 	}
+
 }
 
 void ConsoleApp::Clean()
-{
-	BenchmarkHandler::Terminate();
-}
+{}
 
 EAppState ConsoleApp::GetAppState() const
 {
