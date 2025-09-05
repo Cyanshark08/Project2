@@ -7,7 +7,9 @@
 ConsoleApp::ConsoleApp()
 	: m_AppState(EAppState::Running),
 	m_MenuState(EMenuState::Main)
-{}
+{
+	BenchmarkHandler::InitializeSettings(EBenchmarkSetting::Specific, "Benchmark", "Ben", NULL);
+}
 
 void ConsoleApp::ManageApp()
 {
@@ -133,9 +135,6 @@ void ConsoleApp::HandleInput(char p_Input)
 		}
 		break;
 	case EMenuState::Quadratic:
-
-		printf("\n\t");
-
 		switch (p_Input)
 		{
 		case 'D':
@@ -148,16 +147,22 @@ void ConsoleApp::HandleInput(char p_Input)
 			m_QuadraticExpression.SetAt(EQuadraticCoeff::B, (float)Input::inputDouble("\n\t"));
 			break;
 		case 'C':
+			BenchmarkHandler::BeginBenchmark();
 			m_QuadraticExpression.SetAt(EQuadraticCoeff::C, (float)Input::inputDouble("\n\t"));
+			BenchmarkHandler::EndBenchmark();
 			break;
 		case 'E':
 		{
-			float temp = (float)Input::inputDouble("");
-			printf("\n\tf(%.3f) = %.3f", temp, m_QuadraticExpression(temp));
+			BenchmarkHandler::BeginBenchmark("Benchmark");
+			auto temp = (float)Input::inputDouble("");
+			printf("\n\tf(%.3f) = %.3f", temp, m_QuadraticExpression.EvaluateAt(temp));
+			BenchmarkHandler::EndBenchmark();
 		}
 			break;
 		case 'N':
+			BenchmarkHandler::BeginBenchmark("Ben");
 			printf("\n\tNumber of Roots : %d", m_QuadraticExpression.GetNumOfRoots());
+			BenchmarkHandler::EndBenchmark();
 			break;
 		case 'R':
 			if(m_QuadraticExpression.GetNumOfRoots() > 1)
@@ -172,29 +177,85 @@ void ConsoleApp::HandleInput(char p_Input)
 			m_MenuState = EMenuState::Main;
 			break;
 		}
-
-		printf("\n\t");
-
 		break;
 	case EMenuState::Rational:
-
-		printf("\n\t");
-
 		switch (p_Input)
 		{
 		case '0':
-			m_RationalNumber.Clear();
+			m_RationalNumber1.Clear();
+			m_RationalNumber2.Clear();
 			m_MenuState = EMenuState::Main;
+			break;
+
+		case 'A': // get values for rational number 1
+			try
+			{
+				int n = Input::inputInteger("\n\tEnter the value for the numerator: ");
+				int d = Input::inputInteger("\n\tEnter the value for the denominator: ");
+				m_RationalNumber1 = Rational(n, d);
+			}
+			catch (const ExceptionInterface &e)
+			{
+				return;
+			}
+			printf("\n\tSuccessfully set the numerator and denominator.\n");
+			break;
+
+		case 'B': // display rational number 1
+			printf("\n\tRational number R1: %s\n", m_RationalNumber1.to_string().c_str());
+			break;
+
+		case 'C': // get values for rational number 2
+			try
+			{
+				int n = Input::inputInteger("\n\tEnter the value for the numerator: ");
+				int d = Input::inputInteger("\n\tEnter the value for the denominator: ");
+				m_RationalNumber2 = Rational(n, d);
+			}
+			catch (const ExceptionInterface &e)
+			{
+				return;
+			}
+			std::cout << "\n\tSuccessfully set the numerator and denominator.\n";
+			break;
+
+		case 'D': // display rational number 2
+			printf("\n\tRational Number R2: %s\n", m_RationalNumber2.to_string().c_str());
+			break;
+
+		case 'E': // multiplication
+			printf("\n\tR1 * R2: %s\n", (m_RationalNumber1 * m_RationalNumber2).to_string().c_str());
+			break;
+
+		case 'F': // division
+			printf("\n\tR1 / R2: %s\n", (m_RationalNumber1 / m_RationalNumber2).to_string().c_str());
+			break;
+
+		case 'G': // addition
+			printf("\n\tR1 + R2: %s\n", (m_RationalNumber1 + m_RationalNumber2).to_string().c_str());
+			break;
+
+		case 'H': // subtraction
+			printf("\n\tR1 - R2: %s\n", (m_RationalNumber1 - m_RationalNumber2).to_string().c_str());
+			break;
+
+		case 'I': // equal operator
+			if (m_RationalNumber1 == m_RationalNumber2)
+				printf("\n\tR1 == R2: True\n");
+			else
+				printf("\n\tR1 == R2: False\n");
+			break;
+
+		case 'J': // less than operator
+			if (m_RationalNumber1 < m_RationalNumber2)
+				printf("\n\tR1 < R2: True\n");
+			else
+				printf("\n\tR1 < R2: False\n");
 			break;
 		}
 
-		printf("\n\t");
-
 		break;
 	case EMenuState::PseudoRandom:
-
-		printf("\n\t");
-
 		switch (p_Input)
 		{
 		case '0':
@@ -202,16 +263,14 @@ void ConsoleApp::HandleInput(char p_Input)
 			m_MenuState = EMenuState::Main;
 			break;
 		}
-
-		printf("\n\t");
-
 		break;
 	}
-
 }
 
 void ConsoleApp::Clean()
-{}
+{
+	BenchmarkHandler::Terminate();
+}
 
 EAppState ConsoleApp::GetAppState() const
 {
