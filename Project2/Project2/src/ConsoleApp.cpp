@@ -185,7 +185,9 @@ void ConsoleApp::HandleInput(char p_Input)
 			m_RationalNumber.Clear();
 			m_MenuState = EMenuState::Main;
 			break;
+		case 'A':
 		}
+
 		break;
 	case EMenuState::PseudoRandom:
 		switch (p_Input)
