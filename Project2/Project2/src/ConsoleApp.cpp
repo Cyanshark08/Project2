@@ -35,76 +35,98 @@ void ConsoleApp::DisplayMenu()
 		puts("");
 		puts("\tCMPR131 Chapter 2 - ADT Assignments by ____ (9 / 1 / 2025)");
 		puts(("\t" + std::string(110, 205)).c_str());
-		puts("\t1 > Quadratic Expression");
-		puts("\t2 > Pseudorandom");
-		puts("\t3 > Rational number");
+		puts("\t1. Quadratic Expression");
+		puts("\t2. Pseudorandom");
+		puts("\t3. Rational number");
+		puts("\t4. Statistician");
 		puts(("\t" + std::string(110, 196)).c_str());
-		puts("\tX.Exit");
+		puts("\tX. Exit");
 		puts(("\t" + std::string(110, 205)).c_str());
 		printf("\tOption : ");
 
-		input = Input::inputChar("", "123X");
+		input = Input::inputChar("", "1234X");
 		break;
 	case EMenuState::Quadratic:
 		puts("");
-		puts("\t1 > Quadratic Menu");
+		puts("\tQuadratic Menu");
 		puts(("\t" + std::string(110, 205)).c_str());
-		puts("\tD.display the expression");
-		puts("\tA.set coefficient(a)");
-		puts("\tB.set coefficient(b)");
-		puts("\tC.set coefficient(c)");
-		puts("\tE.get evaluation(x)");
-		puts("\tN.get the number of real roots");
-		puts("\tR.get real root(s)");
+		puts("\t\tD. Display the expression");
+		puts("\t\tA. Set coefficient(a)");
+		puts("\t\tB. Set coefficient(b)");
+		puts("\t\tC. Set coefficient(c)");
+		puts("\t\tE. Get evaluation(x)");
+		puts("\t\tN. Get the number of real roots");
+		puts("\t\tR. Get real root(s)");
 		puts(("\t" + std::string(110, 196)).c_str());
-		puts("\t0. return");
+		puts("\t\t0. Return");
 		puts(("\t" + std::string(110, 205)).c_str());
-		printf("\tOption : ");
+		printf("\t\tOption : ");
 
 		input = Input::inputChar("", "DABCENR0");
 		break;
 	case EMenuState::Rational:
 		puts("");
-		puts("\t3 > Rational Number menu");
+		puts("\tRational Number Menu");
 		puts(("\t" + std::string(110, 205)).c_str());
-		puts("\tA.enter values of rational number R1");
-		puts("\tB.display R1");
-		puts("\tC.enter values for  rational number R2");
-		puts("\tD.display R2");
-		puts("\tE.multiplication of 2 rational numbers(R1 * R2)");
-		puts("\tF.division of 2 rational numbers(R1 / R2)");
-		puts("\tG.addition of 2 rational numbers(R1 + R2)");
-		puts("\tH.subtraction 2 rational numbers(R1 - R2)");
-		puts("\tI. (R1 == R2)");
-		puts("\tJ. (R1 < R2)");
+		puts("\t\tA. Enter values of rational number R1");
+		puts("\t\tB. Display R1");
+		puts("\t\tC. Enter values for  rational number R2");
+		puts("\t\tD. Display R2");
+		puts("\t\tE. Multiplication of 2 rational numbers(R1 * R2)");
+		puts("\t\tF. Division of 2 rational numbers(R1 / R2)");
+		puts("\t\tG. Addition of 2 rational numbers(R1 + R2)");
+		puts("\t\tH. Subtraction 2 rational numbers(R1 - R2)");
+		puts("\t\tI. (R1 == R2)");
+		puts("\t\tJ. (R1 < R2)");
 		puts(("\t" + std::string(110, 196)).c_str());
-		puts("\t0. return");
+		puts("\t\t0. Return");
 		puts(("\t" + std::string(110, 205)).c_str());
-		printf("\tOption : ");
+		printf("\t\tOption : ");
 
 		input = Input::inputChar("", "ABCDEFGHIJ0");
 		break;
 	case EMenuState::PseudoRandom:
 		puts("");
-		puts("\t2 > Pseudorandom menu");
+		puts("\tPseudorandom Menu");
 		puts(("\t" + std::string(110, 205)).c_str());
-		puts("\tA.get seed");
-		puts("\tB.set seed");
-		puts("\tC.get multiplier");
-		puts("\tD.set multiplier");
-		puts("\tE.get modulus");
-		puts("\tF.set modulus");
-		puts("\tG.get increment");
-		puts("\tH.set increment");
-		puts("\tI.get next number");
-		puts("\tJ.get indirect next number");
-		puts("\tK.run experiment with different values(mutliplier, increment, and modulus)");
+		puts("\t\tA. Get seed");
+		puts("\t\tB. Set seed");
+		puts("\t\tC. Get multiplier");
+		puts("\t\tD. Set multiplier");
+		puts("\t\tE. Get modulus");
+		puts("\t\tF. Set modulus");
+		puts("\t\tG. Get increment");
+		puts("\t\tH. Set increment");
+		puts("\t\tI. Get next number");
+		puts("\t\tJ. Get indirect next number");
+		puts("\t\tK. Run experiment with different values(mutliplier, increment, and modulus)");
 		puts(("\t" + std::string(110, 196)).c_str());
-		puts("\t0. return");
+		puts("\t\t0. Return");
 		puts(("\t" + std::string(110, 205)).c_str());
-		printf("\tOption : ");
+		printf("\t\tOption : ");
 
 		input = Input::inputChar("", "ABCDEFGHIJK0");
+		break;
+	case EMenuState::Statistician:
+		puts("");
+		puts("\tStatistician Menu");
+		puts(("\t" + std::string(110, 205)).c_str());
+		puts("\t\tA. Insert a number into the sequence");
+		puts("\t\tB. Find length");
+		puts("\t\tC. Find first number");
+		puts("\t\tD. Find last number");
+		puts("\t\tE. Find sum");
+		puts("\t\tF. Find mean");
+		puts("\t\tG. Find smallest number (minimum)");
+		puts("\t\tH. Find largest number (maximum)");
+		puts("\t\tI. Display the sequence");
+		puts("\t\tJ. Clear the sequence");
+		puts(("\t" + std::string(110, 196)).c_str());
+		puts("\t\t0. Return");
+		puts(("\t" + std::string(110, 205)).c_str());
+		printf("\t\tOption : ");
+
+		input = Input::inputChar("", "ABCDEFGHIJ0");
 		break;
 	}
 
@@ -128,6 +150,9 @@ void ConsoleApp::HandleInput(char p_Input)
 			break;
 		case '3':
 			m_MenuState = EMenuState::Rational;
+			break;
+		case '4':
+			m_MenuState = EMenuState::Statistician;
 			break;
 		case 'X':
 			m_AppState = EAppState::Closed;
@@ -264,6 +289,14 @@ void ConsoleApp::HandleInput(char p_Input)
 			break;
 		}
 		break;
+	case EMenuState::Statistician:
+		switch (p_Input)
+		{
+		case '0':
+			m_Sequence.Clear();
+			m_MenuState = EMenuState::Main;
+			break;
+		}
 	}
 }
 
