@@ -7,9 +7,7 @@
 ConsoleApp::ConsoleApp()
 	: m_AppState(EAppState::Running),
 	m_MenuState(EMenuState::Main)
-{
-	BenchmarkHandler::InitializeSettings(EBenchmarkSetting::Specific, "Benchmark", "Ben", NULL);
-}
+{}
 
 void ConsoleApp::ManageApp()
 {
@@ -109,7 +107,6 @@ void ConsoleApp::DisplayMenu()
 	}
 
 	HandleInput(input);
-	std::system("pause");
 	std::system("cls");
 }
 
@@ -147,22 +144,16 @@ void ConsoleApp::HandleInput(char p_Input)
 			m_QuadraticExpression.SetAt(EQuadraticCoeff::B, (float)Input::inputDouble("\n\t"));
 			break;
 		case 'C':
-			BenchmarkHandler::BeginBenchmark();
 			m_QuadraticExpression.SetAt(EQuadraticCoeff::C, (float)Input::inputDouble("\n\t"));
-			BenchmarkHandler::EndBenchmark();
 			break;
 		case 'E':
 		{
-			BenchmarkHandler::BeginBenchmark("Benchmark");
 			auto temp = (float)Input::inputDouble("");
 			printf("\n\tf(%.3f) = %.3f", temp, m_QuadraticExpression.EvaluateAt(temp));
-			BenchmarkHandler::EndBenchmark();
 		}
 			break;
 		case 'N':
-			BenchmarkHandler::BeginBenchmark("Ben");
 			printf("\n\tNumber of Roots : %d", m_QuadraticExpression.GetNumOfRoots());
-			BenchmarkHandler::EndBenchmark();
 			break;
 		case 'R':
 			if(m_QuadraticExpression.GetNumOfRoots() > 1)
@@ -269,7 +260,6 @@ void ConsoleApp::HandleInput(char p_Input)
 
 void ConsoleApp::Clean()
 {
-	BenchmarkHandler::Terminate();
 }
 
 EAppState ConsoleApp::GetAppState() const
