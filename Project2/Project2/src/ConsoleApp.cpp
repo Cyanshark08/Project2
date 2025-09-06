@@ -221,6 +221,9 @@ void ConsoleApp::HandleInput(char p_Input)
 			}
 			catch (const ExceptionInterface &e)
 			{
+				printf("%s", e.Message().c_str());
+				m_MenuState = EMenuState::Main;
+				std::system("pause");
 				return;
 			}
 			printf("\n\tSuccessfully set the numerator and denominator.\n");
@@ -239,6 +242,9 @@ void ConsoleApp::HandleInput(char p_Input)
 			}
 			catch (const ExceptionInterface &e)
 			{
+				printf("%s", e.Message().c_str());
+				m_MenuState = EMenuState::Main;
+				std::system("pause");
 				return;
 			}
 			std::cout << "\n\tSuccessfully set the numerator and denominator.\n";
