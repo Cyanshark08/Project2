@@ -153,6 +153,9 @@ Rational Rational::operator /(const Rational &right) const
 {
 	Rational temp;
 
+	if (right.getNumerator() == 0)
+		throw E_InvalidDemoninator(getNumerator(), getDenominator());
+
 	// multiply by the reciprocal
 	temp.setNumerator(this->getNumerator() * right.getDenominator());
 	temp.setDenominator(this->getDenominator() * right.getNumerator());
@@ -200,6 +203,6 @@ inline std::string Rational::E_InvalidDemoninator::GetExceptionName() const
 
 inline std::string Rational::E_InvalidDemoninator::GetExceptionMessage() const
 {
-	return std::to_string(numerator) + "/" + std::to_string(denominator) + " is invalid.";
+	return "(" + getNumber() + ") is invalid.";
 }
 
