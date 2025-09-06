@@ -161,33 +161,33 @@ void ConsoleApp::HandleInput(char p_Input)
 		switch (p_Input)
 		{
 		case 'D':
-			printf("\n\t%s", m_QuadraticExpression.to_string().c_str());
+			printf("\n\t%s\n", m_QuadraticExpression.to_string().c_str());
 			break;
 		case 'A':
-			m_QuadraticExpression.SetAt(EQuadraticCoeff::A, (float)Input::inputDouble("\n\t"));
+			m_QuadraticExpression.SetAt(EQuadraticCoeff::A, (float)Input::inputDouble("\n\tEnter a value and set coefficient (a): "));
 			break;
 		case 'B':
-			m_QuadraticExpression.SetAt(EQuadraticCoeff::B, (float)Input::inputDouble("\n\t"));
+			m_QuadraticExpression.SetAt(EQuadraticCoeff::B, (float)Input::inputDouble("\n\tEnter a value and set coefficient (b): "));
 			break;
 		case 'C':
-			m_QuadraticExpression.SetAt(EQuadraticCoeff::C, (float)Input::inputDouble("\n\t"));
+			m_QuadraticExpression.SetAt(EQuadraticCoeff::C, (float)Input::inputDouble("\n\tEnter a value and set coefficient (c): "));
 			break;
 		case 'E':
 		{
-			auto temp = (float)Input::inputDouble("");
-			printf("\n\tf(%.3f) = %.3f", temp, m_QuadraticExpression.EvaluateAt(temp));
+			auto temp = (float)Input::inputDouble("\n\tEnter a value for x: ");
+			printf("\n\tf(%.3f) = %.3f\n", temp, m_QuadraticExpression.EvaluateAt(temp));
 		}
 			break;
 		case 'N':
-			printf("\n\tNumber of Roots : %d", m_QuadraticExpression.GetNumOfRoots());
+			printf("\n\tNumber of Roots : %d\n", m_QuadraticExpression.GetNumOfRoots());
 			break;
 		case 'R':
 			if(m_QuadraticExpression.GetNumOfRoots() > 1)
-				printf("\n\tRoots : x = %.3f, x = %.3f", m_QuadraticExpression.GetRoots().rootOne, m_QuadraticExpression.GetRoots().rootTwo);
+				printf("\n\tRoots : x = %.3f, x = %.3f\n", m_QuadraticExpression.GetRoots().rootOne, m_QuadraticExpression.GetRoots().rootTwo);
 			else if (m_QuadraticExpression.GetNumOfRoots() == 0)
-				printf("\n\tNo Real Roots!");
+				printf("\n\tNo Real Roots!\n");
 			else
-				printf("\n\tRoot : x = %.3f", m_QuadraticExpression.GetRoots().rootOne);
+				printf("\n\tRoot : x = %.3f\n", m_QuadraticExpression.GetRoots().rootOne);
 			break;
 		case '0':
 			m_QuadraticExpression.Clear();
@@ -247,7 +247,15 @@ void ConsoleApp::HandleInput(char p_Input)
 			break;
 
 		case 'F': // division
-			printf("\n\tR1 / R2: %s\n", (m_RationalNumber1 / m_RationalNumber2).to_string().c_str());
+			try
+			{
+				printf("\n\tR1 / R2: %s\n", (m_RationalNumber1 / m_RationalNumber2).to_string().c_str());
+			}
+			catch (const ExceptionInterface &e)
+			{
+				printf("\n\tEXCEPTION ERROR: Cannot divide by 0.\n");
+				return;
+			}
 			break;
 
 		case 'G': // addition
@@ -306,7 +314,7 @@ void ConsoleApp::HandleInput(char p_Input)
 			}
 			break;
 		case 'G': // Get increment
-			printf("\n\tIncrement: %d", m_RandomNumber.getIncrement());
+			printf("\n\tIncrement: %d\n", m_RandomNumber.getIncrement());
 			break;
 		case 'H': // Set increment
 			m_RandomNumber.setIncrement(Input::inputInteger("\n\tEnter new increment: "));
