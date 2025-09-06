@@ -138,7 +138,7 @@ std::string Rational::to_string() const
 }
 
 // overloaded operators
-Rational Rational::operator *(const Rational &right)
+Rational Rational::operator *(const Rational &right) const
 {
 	Rational temp;
 
@@ -149,7 +149,7 @@ Rational Rational::operator *(const Rational &right)
 	return temp;
 }
 
-Rational Rational::operator /(const Rational &right)
+Rational Rational::operator /(const Rational &right) const
 {
 	Rational temp;
 
@@ -160,7 +160,7 @@ Rational Rational::operator /(const Rational &right)
 	return temp;
 }
 
-Rational Rational::operator +(const Rational &right)
+Rational Rational::operator +(const Rational &right) const
 {
 	Rational temp;
 
@@ -171,7 +171,7 @@ Rational Rational::operator +(const Rational &right)
 	return temp;
 }
 
-Rational Rational::operator -(const Rational &right)
+Rational Rational::operator -(const Rational &right) const
 {
 	Rational temp;
 
@@ -182,12 +182,12 @@ Rational Rational::operator -(const Rational &right)
 	return temp;
 }
 
-bool Rational::operator ==(const Rational &right)
+bool Rational::operator ==(const Rational &right) const
 {
 	return this->getNumerator() * right.getDenominator() == this->getDenominator() * right.getNumerator();
 }
 
-bool Rational::operator <(const Rational &right)
+bool Rational::operator <(const Rational &right) const
 {
 	return this->getNumerator() * right.getDenominator() < this->getDenominator() * right.getNumerator();
 }
