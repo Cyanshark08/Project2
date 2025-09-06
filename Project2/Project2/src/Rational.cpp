@@ -1,5 +1,6 @@
 #include "Rational.h"
 
+
 /*
 * PreCondition: N/A
 * 
@@ -125,12 +126,19 @@ int Rational::getDenominator() const
 	return denominator;
 }
 
+/*
+* PreCondition: N/A
+* 
+* PostCondition: return the class in string format 'n/n'
+* @return The class as a string
+*/
 std::string Rational::to_string() const
 {
 	return std::to_string(numerator) + "/" + std::to_string(denominator);
 }
 
-Rational Rational::operator *(const Rational &right)
+// overloaded operators
+Rational Rational::operator *(const Rational &right) const
 {
 	Rational temp;
 
@@ -141,7 +149,7 @@ Rational Rational::operator *(const Rational &right)
 	return temp;
 }
 
-Rational Rational::operator /(const Rational &right)
+Rational Rational::operator /(const Rational &right) const
 {
 	Rational temp;
 
@@ -152,7 +160,7 @@ Rational Rational::operator /(const Rational &right)
 	return temp;
 }
 
-Rational Rational::operator +(const Rational &right)
+Rational Rational::operator +(const Rational &right) const
 {
 	Rational temp;
 
@@ -163,7 +171,7 @@ Rational Rational::operator +(const Rational &right)
 	return temp;
 }
 
-Rational Rational::operator -(const Rational &right)
+Rational Rational::operator -(const Rational &right) const
 {
 	Rational temp;
 
@@ -174,12 +182,24 @@ Rational Rational::operator -(const Rational &right)
 	return temp;
 }
 
-bool Rational::operator ==(const Rational &right)
+bool Rational::operator ==(const Rational &right) const
 {
 	return this->getNumerator() * right.getDenominator() == this->getDenominator() * right.getNumerator();
 }
 
-bool Rational::operator <(const Rational &right)
+bool Rational::operator <(const Rational &right) const
 {
 	return this->getNumerator() * right.getDenominator() < this->getDenominator() * right.getNumerator();
 }
+
+// Exceptions
+inline std::string Rational::E_InvalidDemoninator::GetExceptionName() const
+{
+	return "Invalid denominator";
+}
+
+inline std::string Rational::E_InvalidDemoninator::GetExceptionMessage() const
+{
+	return std::to_string(numerator) + "/" + std::to_string(denominator) + " is invalid.";
+}
+

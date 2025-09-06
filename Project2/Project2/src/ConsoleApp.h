@@ -2,6 +2,7 @@
 #include "PseudoRandom.h"
 #include "Quadratic.h"
 #include "Rational.h"
+#include "Statistician.h"
 
 enum class EAppState
 {
@@ -14,7 +15,8 @@ enum class EMenuState
 	Main,
 	Quadratic,
 	Rational,
-	PseudoRandom
+	PseudoRandom,
+	Statistician
 };
 
 class ConsoleApp
@@ -43,5 +45,6 @@ private:
 	PseudoRandom m_RandomNumber{};
 	Rational m_RationalNumber1{};
 	Rational m_RationalNumber2{};
+	Statistician m_Sequence{};
 };
 

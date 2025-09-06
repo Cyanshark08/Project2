@@ -1,4 +1,5 @@
 #include "ExceptionInterface.h"
+#include <sstream>
 
 std::string ExceptionInterface::Message() const
 {

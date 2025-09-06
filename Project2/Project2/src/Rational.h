@@ -16,6 +16,11 @@ public:
 		int32_t numerator;
 		int32_t denominator;
 
+
+	private:
+		std::string GetExceptionName() const override;
+		std::string GetExceptionMessage() const override;
+
 	public:
 		E_InvalidDemoninator(int32_t n, int32_t d)
 		{
@@ -39,12 +44,12 @@ public:
 	std::string to_string() const;
 
 	// overloaded operators
-	Rational operator *(const Rational &right);
-	Rational operator /(const Rational &right);
-	Rational operator +(const Rational &left);
-	Rational operator -(const Rational &left);
-	bool operator ==(const Rational &right);
-	bool operator <(const Rational &right);
+	Rational operator *(const Rational &right) const;
+	Rational operator /(const Rational &right) const;
+	Rational operator +(const Rational &left) const;
+	Rational operator -(const Rational &left) const;
+	bool operator ==(const Rational &right) const;
+	bool operator <(const Rational &right) const;
 
 private:
 	int32_t numerator;

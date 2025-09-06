@@ -9,6 +9,5 @@ public:
 private:
 	virtual std::string GetExceptionName() const = 0;
 	virtual std::string GetExceptionMessage() const = 0;
-
 };
 
