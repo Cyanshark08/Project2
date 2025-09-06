@@ -129,7 +129,6 @@ void ConsoleApp::DisplayMenu()
 	}
 
 	HandleInput(input);
-	std::system("pause");
 	std::system("cls");
 }
 
