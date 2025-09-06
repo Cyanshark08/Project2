@@ -289,6 +289,67 @@ void ConsoleApp::HandleInput(char p_Input)
 	case EMenuState::PseudoRandom:
 		switch (p_Input)
 		{
+		case 'A': // Get seed
+			printf("\n\tSeed: %d", m_RandomNumber.getSeed());
+			break;
+		case 'B': // Set seed
+			m_RandomNumber.setSeed(Input::inputInteger("\n\tEnter new seed: "));
+			printf("\n\tSeed set successfully.");
+			break;
+		case 'C': // Get multiplier
+			printf("\n\tMultiplier: %d", m_RandomNumber.getMultiplier());
+			break;
+		case 'D': // Set multiplier
+			m_RandomNumber.setMultiplier(Input::inputInteger("\n\tEnter new multiplier: "));
+			printf("\n\tMultiplier set successfully.");
+			break;
+		case 'E': // Get modulus
+			printf("\n\tModulus: %d", m_RandomNumber.getModulus());
+			break;
+		case 'F': // Set modulus
+			try
+			{
+				m_RandomNumber.setModulus(Input::inputInteger("\n\tEnter new modulus: "));
+				printf("\n\tModulus set successfully.");
+			}
+			catch (const ExceptionInterface &e)
+			{
+				printf("%s", e.Message().c_str());
+			}
+			break;
+		case 'G': // Get increment
+			printf("\n\tIncrement: %d", m_RandomNumber.getIncrement());
+			break;
+		case 'H': // Set increment
+			m_RandomNumber.setIncrement(Input::inputInteger("\n\tEnter new increment: "));
+			printf("\n\tIncrement set successfully.");
+			break;
+		case 'I': // Get next number
+			printf("\n\tNext number: %d", m_RandomNumber.getNextNumber());
+			break;
+		case 'J': // Get indirect next number
+			printf("\n\tIndirect next number: %d", m_RandomNumber.getIndirectNextNumber());
+			break;
+		case 'K': // Run experiment
+		{
+			printf("\n\tRunning experiment with different values...");
+
+			// Test with different parameters
+			PseudoRandom exp1(123, 75, 74, 65537);
+			printf("\n\tExperiment 1 (123,75,74,65537): ");
+			for (int i = 0; i < 5; i++)
+			{
+				printf("%d ", exp1.getNextNumber());
+			}
+
+			PseudoRandom exp2(456, 1664525, 1013904223, 4294967296);
+			printf("\n\tExperiment 2 (456,1664525,1013904223,4294967296): ");
+			for (int i = 0; i < 5; i++)
+			{
+				printf("%d ", exp2.getNextNumber());
+			}
+			break;
+		}
 		case '0':
 			m_RandomNumber.Clear();
 			m_MenuState = EMenuState::Main;
@@ -298,11 +359,82 @@ void ConsoleApp::HandleInput(char p_Input)
 	case EMenuState::Statistician:
 		switch (p_Input)
 		{
+		case 'A': // Insert number
+		{
+			double num = Input::inputDouble("\n\tEnter a number to insert: ");
+			m_Sequence.insertNumber(num);
+			printf("\n\tNumber %.2f inserted successfully.", num);
+			break;
+		}
+		case 'B': // Find length
+			printf("\n\tLength: %d", m_Sequence.findLength());
+			break;
+		case 'C': // Find first
+			try
+			{
+				printf("\n\tFirst number: %.2f", m_Sequence.findFirst());
+			}
+			catch (const ExceptionInterface &e)
+			{
+				printf("%s", e.Message().c_str());
+			}
+			break;
+		case 'D': // Find last
+			try
+			{
+				printf("\n\tLast number: %.2f", m_Sequence.findLast());
+			}
+			catch (const ExceptionInterface &e)
+			{
+				printf("%s", e.Message().c_str());
+			}
+			break;
+		case 'E': // Find sum
+			printf("\n\tSum: %.2f", m_Sequence.findSum());
+			break;
+		case 'F': // Find mean
+			try
+			{
+				printf("\n\tMean: %.2f", m_Sequence.findMean());
+			}
+			catch (const ExceptionInterface &e)
+			{
+				printf("%s", e.Message().c_str());
+			}
+			break;
+		case 'G': // Find minimum
+			try
+			{
+				printf("\n\tMinimum: %.2f", m_Sequence.findMinimum());
+			}
+			catch (const ExceptionInterface &e)
+			{
+				printf("%s", e.Message().c_str());
+			}
+			break;
+		case 'H': // Find maximum
+			try
+			{
+				printf("\n\tMaximum: %.2f", m_Sequence.findMaximum());
+			}
+			catch (const ExceptionInterface &e)
+			{
+				printf("%s", e.Message().c_str());
+			}
+			break;
+		case 'I': // Display sequence
+			printf("\n\tSequence: %s", m_Sequence.displaySequence().c_str());
+			break;
+		case 'J': // Clear sequence
+			m_Sequence.Clear();
+			printf("\n\tSequence cleared.");
+			break;
 		case '0':
 			m_Sequence.Clear();
 			m_MenuState = EMenuState::Main;
 			break;
 		}
+		break;
 	}
 }
 
