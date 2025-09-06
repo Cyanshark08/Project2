@@ -163,13 +163,13 @@ void ConsoleApp::HandleInput(char p_Input)
 			printf("\n\t%s", m_QuadraticExpression.to_string().c_str());
 			break;
 		case 'A':
-			m_QuadraticExpression.SetAt(EQuadraticCoeff::A, (float)Input::inputDouble("\n\t"));
+			m_QuadraticExpression.SetAt(EQuadraticCoeff::A, (float)Input::inputDouble("\n\tInput value for Coefficient A: "));
 			break;
 		case 'B':
-			m_QuadraticExpression.SetAt(EQuadraticCoeff::B, (float)Input::inputDouble("\n\t"));
+			m_QuadraticExpression.SetAt(EQuadraticCoeff::B, (float)Input::inputDouble("\n\tInput value for Coefficient B: "));
 			break;
 		case 'C':
-			m_QuadraticExpression.SetAt(EQuadraticCoeff::C, (float)Input::inputDouble("\n\t"));
+			m_QuadraticExpression.SetAt(EQuadraticCoeff::C, (float)Input::inputDouble("\n\tInput value for Coefficient C: "));
 			break;
 		case 'E':
 		{
@@ -178,21 +178,31 @@ void ConsoleApp::HandleInput(char p_Input)
 		}
 			break;
 		case 'N':
-			printf("\n\tNumber of Roots : %d", m_QuadraticExpression.GetNumOfRoots());
+			if(m_QuadraticExpression.GetNumOfRoots() != std::numeric_limits<size_t>().max())
+				printf("\n\tNumber of Roots : %d", m_QuadraticExpression.GetNumOfRoots());
+			else
+				printf("\n\tNumber of Roots : Infinite");
 			break;
 		case 'R':
-			if(m_QuadraticExpression.GetNumOfRoots() > 1)
-				printf("\n\tRoots : x = %.3f, x = %.3f", m_QuadraticExpression.GetRoots().rootOne, m_QuadraticExpression.GetRoots().rootTwo);
-			else if (m_QuadraticExpression.GetNumOfRoots() == 0)
-				printf("\n\tNo Real Roots!");
-			else
-				printf("\n\tRoot : x = %.3f", m_QuadraticExpression.GetRoots().rootOne);
+			try
+			{
+				printf("\n\tReal Roots: %s", m_QuadraticExpression.GetRootsAsString().c_str());
+			}
+			catch (const ExceptionInterface& e)
+			{
+				printf("\n\t%s", e.Message().c_str());
+				break;
+			}
 			break;
 		case '0':
 			m_QuadraticExpression.Clear();
 			m_MenuState = EMenuState::Main;
-			break;
+			return;
 		}
+
+		puts("\n\t");
+		std::system("pause");
+
 		break;
 	case EMenuState::Rational:
 		switch (p_Input)
@@ -201,7 +211,7 @@ void ConsoleApp::HandleInput(char p_Input)
 			m_RationalNumber1.Clear();
 			m_RationalNumber2.Clear();
 			m_MenuState = EMenuState::Main;
-			break;
+			return;
 
 		case 'A': // get values for rational number 1
 			try
@@ -213,9 +223,8 @@ void ConsoleApp::HandleInput(char p_Input)
 			catch (const ExceptionInterface &e)
 			{
 				printf("%s", e.Message().c_str());
-				m_MenuState = EMenuState::Main;
-				std::system("pause");
-				return;
+				m_RationalNumber1.Clear();
+				break;
 			}
 			printf("\n\tSuccessfully set the numerator and denominator.\n");
 			break;
@@ -234,9 +243,8 @@ void ConsoleApp::HandleInput(char p_Input)
 			catch (const ExceptionInterface &e)
 			{
 				printf("%s", e.Message().c_str());
-				m_MenuState = EMenuState::Main;
-				std::system("pause");
-				return;
+				m_RationalNumber2.Clear();
+				break;
 			}
 			std::cout << "\n\tSuccessfully set the numerator and denominator.\n";
 			break;
@@ -275,6 +283,9 @@ void ConsoleApp::HandleInput(char p_Input)
 				printf("\n\tR1 < R2: False\n");
 			break;
 		}
+
+		puts("\n\t");
+		std::system("pause");
 
 		break;
 	case EMenuState::PseudoRandom:
@@ -344,8 +355,12 @@ void ConsoleApp::HandleInput(char p_Input)
 		case '0':
 			m_RandomNumber.Clear();
 			m_MenuState = EMenuState::Main;
-			break;
+			return;
 		}
+
+		puts("\n\t");
+		std::system("pause");
+
 		break;
 	case EMenuState::Statistician:
 		switch (p_Input)
@@ -423,15 +438,18 @@ void ConsoleApp::HandleInput(char p_Input)
 		case '0':
 			m_Sequence.Clear();
 			m_MenuState = EMenuState::Main;
-			break;
+			return;
 		}
+
+		puts("\n\t");
+		std::system("pause");
+
 		break;
 	}
 }
 
 void ConsoleApp::Clean()
-{
-}
+{}
 
 EAppState ConsoleApp::GetAppState() const
 {

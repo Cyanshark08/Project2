@@ -1,11 +1,19 @@
+/*
+* Collaborators:
+*  - Andrew Nguyen
+*  - Jaime Gutierrez
+*  - Landon Mendoza
+* 
+* Date: 9/6/2025
+* 
+* Project: 
+* 
+*/
+
+
 #include "ConsoleApp.h"
 
-#define BENCHMARK true
-
-namespace smth
-{
-	void func(size_t i);
-}
+#define BENCHMARK false
 
 int main()
 {

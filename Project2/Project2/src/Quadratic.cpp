@@ -1,6 +1,6 @@
 #include "Quadratic.h"
 #include <sstream>
-
+#include <iomanip>
 
 
 void Quadratic::SetAt(EQuadraticCoeff p_CoeffNum, float p_Arg)
@@ -41,6 +41,16 @@ float Quadratic::GetDiscriminant() const
     return b * b - 4 * a * c;
 }
 
+bool Quadratic::IsLinear() const
+{
+    return a == 0;
+}
+
+bool Quadratic::IsConstant() const
+{
+    return (a == 0 && b == 0);
+}
+
 
 float Quadratic::operator()(float p_Arg) const
 {
@@ -65,6 +75,17 @@ float& Quadratic::operator[](size_t p_CoeffNum)
 
 size_t Quadratic::GetNumOfRoots() const
 {
+    if (IsConstant() && c == 0)
+    {
+        return std::numeric_limits<size_t>().max();
+    }
+    else if (IsConstant())
+        return 0;
+    else if (IsLinear())
+    {
+        return 1;
+    }
+
     float cachedDiscriminant = this->GetDiscriminant();
 
     if (cachedDiscriminant > 0)
@@ -79,7 +100,51 @@ size_t Quadratic::GetNumOfRoots() const
 Roots Quadratic::GetRoots() const
 {
     if (this->GetNumOfRoots() >= 0)
-        return { (- b - this->GetDiscriminant()) / 2 / a, (- b + this->GetDiscriminant()) / 2 / a};
+        return { (- b - std::sqrt(this->GetDiscriminant())) / 2 / a, (- b + std::sqrt(this->GetDiscriminant())) / 2 / a};
     else
         return { Roots::complex, Roots::complex };
+}
+
+std::string Quadratic::GetRootsAsString() const
+{
+    std::stringstream ss;
+
+    if (IsConstant() && c == 0)
+    {
+        ss << "All x are Real Roots";
+        return ss.str();
+    }
+    else if (IsConstant())
+        throw E_NoRealRoots();
+    else if (IsLinear())
+    {
+        ss << "x = " << std::fixed << -c / b;
+        return ss.str();
+    }
+    
+    Roots roots = this->GetRoots();
+
+    switch (GetNumOfRoots())
+    {
+    case 1:
+        ss << "x = " << std::fixed << roots.rootOne;
+        break;
+    case 2:
+        ss << "x = " << std::fixed << roots.rootOne << ", x = " << std::fixed << roots.rootTwo;
+        break;
+    default:
+        throw E_NoRealRoots();
+    }
+    
+    return ss.str();
+}
+
+std::string Quadratic::E_NoRealRoots::GetExceptionName() const
+{
+    return "No Real Roots";
+}
+
+std::string Quadratic::E_NoRealRoots::GetExceptionMessage() const
+{
+    return "No Real Root x Exists";
 }

@@ -6,7 +6,7 @@
 * PostCondition: Initializes empty statistician
 */
 Statistician::Statistician()
-    : m_sum(0), m_min(std::numeric_limits<double>::max()), m_max(std::numeric_limits<double>::lowest())
+    : m_Sum(0), m_Min(std::numeric_limits<double>::max()), m_Max(std::numeric_limits<double>::lowest())
 {
 }
 
@@ -16,10 +16,10 @@ Statistician::Statistician()
 */
 void Statistician::Clear()
 {
-    m_sequence.clear();
-    m_sum = 0;
-    m_min = std::numeric_limits<double>::max();
-    m_max = std::numeric_limits<double>::lowest();
+    m_Sequence.clear();
+    m_Sum = 0;
+    m_Min = std::numeric_limits<double>::max();
+    m_Max = std::numeric_limits<double>::lowest();
 }
 
 /*
@@ -28,11 +28,11 @@ void Statistician::Clear()
 */
 void Statistician::insertNumber(double number)
 {
-    m_sequence.push_back(number);
-    m_sum += number;
+    m_Sequence.push_back(number);
+    m_Sum += number;
 
-    if (number < m_min) m_min = number;
-    if (number > m_max) m_max = number;
+    if (number < m_Min) m_Min = number;
+    if (number > m_Max) m_Max = number;
 }
 
 /*
@@ -42,7 +42,7 @@ void Statistician::insertNumber(double number)
 */
 int Statistician::findLength() const
 {
-    return m_sequence.size();
+    return m_Sequence.size();
 }
 
 /*
@@ -52,9 +52,9 @@ int Statistician::findLength() const
 */
 double Statistician::findFirst() const
 {
-    if (m_sequence.empty())
+    if (m_Sequence.empty())
         throw E_EmptySequence();
-    return m_sequence.front();
+    return m_Sequence.front();
 }
 
 /*
@@ -64,9 +64,9 @@ double Statistician::findFirst() const
 */
 double Statistician::findLast() const
 {
-    if (m_sequence.empty())
+    if (m_Sequence.empty())
         throw E_EmptySequence();
-    return m_sequence.back();
+    return m_Sequence.back();
 }
 
 /*
@@ -76,7 +76,7 @@ double Statistician::findLast() const
 */
 double Statistician::findSum() const
 {
-    return m_sum;
+    return m_Sum;
 }
 
 /*
@@ -86,9 +86,9 @@ double Statistician::findSum() const
 */
 double Statistician::findMean() const
 {
-    if (m_sequence.empty())
+    if (m_Sequence.empty())
         throw E_EmptySequence();
-    return m_sum / m_sequence.size();
+    return m_Sum / m_Sequence.size();
 }
 
 /*
@@ -98,9 +98,9 @@ double Statistician::findMean() const
 */
 double Statistician::findMinimum() const
 {
-    if (m_sequence.empty())
+    if (m_Sequence.empty())
         throw E_EmptySequence();
-    return m_min;
+    return m_Min;
 }
 
 /*
@@ -110,9 +110,9 @@ double Statistician::findMinimum() const
 */
 double Statistician::findMaximum() const
 {
-    if (m_sequence.empty())
+    if (m_Sequence.empty())
         throw E_EmptySequence();
-    return m_max;
+    return m_Max;
 }
 
 /*
@@ -124,10 +124,10 @@ std::string Statistician::displaySequence() const
 {
     std::stringstream ss;
     ss << "[";
-    for (size_t i = 0; i < m_sequence.size(); i++)
+    for (size_t i = 0; i < m_Sequence.size(); i++)
     {
-        ss << m_sequence[i];
-        if (i < m_sequence.size() - 1)
+        ss << m_Sequence[i];
+        if (i < m_Sequence.size() - 1)
             ss << ", ";
     }
     ss << "]";

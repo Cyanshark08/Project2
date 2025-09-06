@@ -29,8 +29,8 @@ public:
     std::string displaySequence() const;
 
 private:
-    std::vector<double> m_sequence;
-    double m_sum;
-    double m_min;
-    double m_max;
+    std::vector<double> m_Sequence;
+    double m_Sum;
+    double m_Min;
+    double m_Max;
 };

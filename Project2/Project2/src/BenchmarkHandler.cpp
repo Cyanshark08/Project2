@@ -4,7 +4,7 @@
 #include <sstream>
 #include <stdarg.h>
 
-#if BENCHMARK == 1
+#if BENCHMARK == true
 
 Process::Process()
 	: m_InitialTimePoint(),

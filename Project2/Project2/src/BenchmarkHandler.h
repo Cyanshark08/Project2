@@ -9,15 +9,15 @@
 #include <varargs.h>
 
 #if BENCHMARK == true
-	#ifndef BENCHMARK_TEST(foo)
-	#define BENCHMARK_TEST(foo) BenchmarkHandler::BeginBenchmark(#foo);\
-								foo;\
+	#ifndef BENCHMARK_TEST(x)
+	#define BENCHMARK_TEST(x) BenchmarkHandler::BeginBenchmark(#x);\
+								x;\
 								BenchmarkHandler::EndBenchmark()
 	#endif
 
-	#ifndef BENCHMARK_TEST_PRES(foo, precision)
-	#define BENCHMARK_TEST_PRES(foo, precision) BenchmarkHandler::BeginBenchmark(#foo);\
-												foo;\
+	#ifndef BENCHMARK_TEST_PRES(x, precision)
+	#define BENCHMARK_TEST_PRES(x, precision) BenchmarkHandler::BeginBenchmark(#x);\
+												x;\
 												BenchmarkHandler::EndBenchmark(precision)
 	#endif
 
@@ -29,17 +29,23 @@
 	#define BENCHMARK_END BenchmarkHandler::EndBenchmark()
 	#endif	
 
-
-
-
 #else
-	#ifndef BENCHMARK_TEST(foo)
-	#define BENCHMARK_TEST(foo) foo
+	#ifndef BENCHMARK_TEST(x)
+	#define BENCHMARK_TEST(x) x
 	#endif
 
-	#ifndef BENCHMARK_TEST_PRES(foo, precision)
-	#define BENCHMARK_TEST_PRES(foo, precision) foo
+	#ifndef BENCHMARK_TEST_PRES(x, precision)
+	#define BENCHMARK_TEST_PRES(x, precision) x
 	#endif
+
+	#ifndef BENCHMARK_BEGIN(x)
+	#define BENCHMARK_BEGIN(x) 
+	#endif	
+
+	#ifndef BENCHMARK_END
+	#define BENCHMARK_END 
+	#endif	
+
 #endif
 
 #if BENCHMARK == true
