@@ -2,7 +2,10 @@
 #include <sstream>
 #include <iomanip>
 
-
+/*
+* Precondition: Pass the Coefficient to be altered and the value to set it to
+* Postcondition: Sets that coefficient to the value
+*/
 void Quadratic::SetAt(EQuadraticCoeff p_CoeffNum, float p_Arg)
 {
     switch (p_CoeffNum)

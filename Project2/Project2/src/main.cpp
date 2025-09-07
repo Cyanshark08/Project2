@@ -13,8 +13,6 @@
 
 #include "ConsoleApp.h"
 
-#define BENCHMARK false
-
 int main()
 {
 	ConsoleApp app;
