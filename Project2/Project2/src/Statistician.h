@@ -28,6 +28,8 @@ public:
     double findMaximum() const;
     std::string displaySequence() const;
 
+    Statistician operator +(const Statistician &left) const;
+
 private:
     std::vector<double> m_Sequence;
     double m_Sum;

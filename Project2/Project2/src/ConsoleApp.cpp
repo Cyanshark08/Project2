@@ -31,7 +31,7 @@ void ConsoleApp::DisplayMenu()
 	{
 	case EMenuState::Main:
 		puts("");
-		puts("\tCMPR131 Chapter 2 - ADT Assignments by Jaime Gutierrez, Landon Mendoza and Andrew Nguyen (9 / 1 / 2025)");
+		puts("\tCMPR131 Chapter 2 - ADT Assignments by Landon Mendoza, Jaime Gutierrez, and Andrew Nguyen (9 / 1 / 2025)");
 		puts(("\t" + std::string(110, 205)).c_str());
 		puts("\t1. Quadratic Expression");
 		puts("\t2. Pseudorandom");
@@ -118,13 +118,14 @@ void ConsoleApp::DisplayMenu()
 		puts("\t\tG. Find smallest number (minimum)");
 		puts("\t\tH. Find largest number (maximum)");
 		puts("\t\tI. Display the sequence");
-		puts("\t\tJ. Clear the sequence");
+		puts("\t\tJ. Add Statistician classes together (S1 + S2)");
+		puts("\t\tK. Clear the sequence");
 		puts(("\t" + std::string(110, 196)).c_str());
 		puts("\t\t0. Return");
 		puts(("\t" + std::string(110, 205)).c_str());
 		printf("\t\tOption : ");
 
-		input = Input::inputChar("", "ABCDEFGHIJ0");
+		input = Input::inputChar("", "ABCDEFGHIJK0");
 		break;
 	}
 
@@ -440,7 +441,23 @@ void ConsoleApp::HandleInput(char p_Input)
 		case 'I': // Display sequence
 			printf("\n\tSequence: %s", m_Sequence.displaySequence().c_str());
 			break;
-		case 'J': // Clear sequence
+		case 'J':
+		{
+			Statistician m_Sequence2;
+
+			// get the size of the 2nd class
+			size_t size = Input::inputInteger("\n\tEnter a size for the 2nd statician class: ");
+
+			// get the values to be inserted
+			for (size_t i = 0; i < size; i++)
+				m_Sequence2.insertNumber(Input::inputDouble("\n\tEnter a number to insert: "));
+
+			// add the two classes together
+			m_Sequence = m_Sequence + m_Sequence2;
+			printf("\n\tSequences successfully added together.");
+			break;
+		}
+		case 'K': // Clear sequence
 			m_Sequence.Clear();
 			printf("\n\tSequence cleared.");
 			break;

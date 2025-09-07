@@ -134,6 +134,24 @@ std::string Statistician::displaySequence() const
     return ss.str();
 }
 
+// overloaded operator
+Statistician Statistician::operator +(const Statistician &right) const
+{
+    Statistician temp;
+
+    // insert the values of the current class
+    for (size_t i = 0; i < this->findLength(); i++)
+        temp.insertNumber(this->m_Sequence[i]);
+
+    // insert the values of the second class to the first
+    for (size_t i = 0; i < right.findLength(); i++)
+    {
+        temp.insertNumber(right.m_Sequence[i]);
+    }
+
+    return temp;
+}
+
 // Exception implementations
 inline std::string Statistician::E_EmptySequence::GetExceptionName() const
 {
