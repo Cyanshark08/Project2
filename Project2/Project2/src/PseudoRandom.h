@@ -37,7 +37,10 @@ public:
 
     // Operations
     int64_t getNextNumber();
-    int64_t getIndirectNextNumber();
+    float getIndirectNextNumber();
+
+    float getGaussianDistribution();
+    std::string getTestResults();
 
 private:
     int64_t m_seed;

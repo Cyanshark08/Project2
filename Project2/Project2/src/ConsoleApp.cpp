@@ -1,6 +1,7 @@
 #include "ConsoleApp.h"
 #include <cstdio>
 #include <cstdint>
+#include <map>
 #include "BenchmarkHandler.h"
 #include "Input.h"
 
@@ -346,33 +347,14 @@ void ConsoleApp::HandleInput(char p_Input)
 
 			try
 			{
-				// Test with different parameters - use numbers that fit in int64_t
-				PseudoRandom exp1(123, 75, 74, 10007);
-				printf("\n\tExperiment 1 (123,75,74,10007): ");
-				for (int i = 0; i < 5; i++)
-				{
-					printf("%lld ", exp1.getNextNumber());
-				}
-
-				// Use numbers that don't cause overflow
-				PseudoRandom exp2(456, 16645, 10139, 100000);
-				printf("\n\tExperiment 2 (456,16645,10139,100000): ");
-				for (int i = 0; i < 5; i++)
-				{
-					printf("%lld ", exp2.getNextNumber());
-				}
-
-				// Test with the original default values
-				printf("\n\tDefault values (1,40,3641,729): ");
-				PseudoRandom exp3;
-				for (int i = 0; i < 5; i++)
-				{
-					printf("%lld ", exp3.getNextNumber());
-				}
+				m_RandomNumber.setIncrement(rand());
+				m_RandomNumber.setModulus(rand());
+				m_RandomNumber.setMultiplier(rand());
+				printf("\n\t%s", m_RandomNumber.getTestResults().c_str());
 			}
 			catch (const ExceptionInterface &e)
 			{
-				printf("%s", e.Message().c_str());
+				printf("\n\t%s", e.Message().c_str());
 			}
 			catch (const std::exception &e)
 			{
