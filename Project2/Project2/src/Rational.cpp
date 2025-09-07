@@ -15,7 +15,6 @@ void Rational::Clear()
 
 /*
 * PreCondition: N/A
-*
 * PostCondition: default the numerator and denominator
 */
 Rational::Rational()
@@ -27,8 +26,8 @@ Rational::Rational()
 
 /*
 * PreCondition: newNumerator and newDenominator must be integers. NewDenominator cannot equal 0
-*
 * PostCondition: set newNumerator and newDenominator to numerator and denominator, respectively
+* 
 * @param The integers to set as the numerator and denominator
 */
 Rational::Rational(int32_t newNumerator, int32_t newDenominator)
@@ -43,8 +42,8 @@ Rational::Rational(int32_t newNumerator, int32_t newDenominator)
 
 /*
 * PreCondition: x and y are intergers. y cannot equal 0.
-*
 * PostCondition: return the greatest common divisor between the two integers
+* 
 * @param The two integers to find the greatest common divisor
 * @return An integer representing the greatest common divisor
 */
@@ -58,7 +57,6 @@ int32_t Rational::gcd(int32_t x, int32_t y) const
 
 /*
 * PreCondition: N/A
-*
 * PostCondition: simplify the numerator and denominator
 */
 void Rational::simplify()
@@ -79,8 +77,8 @@ void Rational::simplify()
 
 /*
 * PreCondition: newNumerator must be an integer
-*
 * PostCondition: set the numerator to the new numerator
+* 
 * @param The integer to set as the numerator
 */
 void Rational::setNumerator(int32_t newNumerator)
@@ -91,8 +89,8 @@ void Rational::setNumerator(int32_t newNumerator)
 
 /*
 * PreCondition: N/A
-*
 * PostCondition: return the numerator
+* 
 * @return the integer in the numerator
 */
 int Rational::getNumerator() const
@@ -102,8 +100,8 @@ int Rational::getNumerator() const
 
 /*
 * PreCondition: newDenominator must be an integer not equal to 0
-*
 * PostCondition: set the denominator to the new denominator
+* 
 * @param the integer to set as the denominator
 */
 void Rational::setDenominator(int32_t newDenominator)
@@ -117,8 +115,8 @@ void Rational::setDenominator(int32_t newDenominator)
 
 /*
 * PreCondition: N/A
-*
 * PostCondition: return the denominator
+* 
 * @return the integer in the denominator
 */
 int Rational::getDenominator() const
@@ -128,8 +126,8 @@ int Rational::getDenominator() const
 
 /*
 * PreCondition: N/A
-* 
 * PostCondition: return the class in string format 'n/n'
+* 
 * @return The class as a string
 */
 std::string Rational::to_string() const

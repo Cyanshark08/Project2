@@ -124,7 +124,6 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\ExceptionInterface.cpp" />
-    <ClCompile Include="src\BenchmarkHandler.cpp" />
     <ClCompile Include="src\ConsoleApp.cpp" />
     <ClCompile Include="src\PseudoRandom.cpp" />
     <ClCompile Include="src\Quadratic.cpp" />
@@ -134,7 +133,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\ExceptionInterface.h" />
-    <ClInclude Include="src\BenchmarkHandler.h" />
     <ClInclude Include="src\ConsoleApp.h" />
     <ClInclude Include="src\Input.h" />
     <ClInclude Include="src\PseudoRandom.h" />

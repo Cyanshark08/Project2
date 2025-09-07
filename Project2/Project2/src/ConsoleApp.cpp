@@ -2,7 +2,6 @@
 #include <cstdio>
 #include <cstdint>
 #include <map>
-#include "BenchmarkHandler.h"
 #include "Input.h"
 
 ConsoleApp::ConsoleApp()

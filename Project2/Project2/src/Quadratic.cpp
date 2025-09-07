@@ -22,11 +22,24 @@ void Quadratic::SetAt(EQuadraticCoeff p_CoeffNum, float p_Arg)
     }
 }
 
+/*
+* PreCondition: Pass the value (x) to use to evaluate the expression
+* PostCondition: Return the result of the expression at the given value (x)
+* 
+* @param The value (x) to evaluate the expression at
+* @return The result when the value (x) is plugged into the expression
+*/
 float Quadratic::EvaluateAt(float p_Arg) const
 {
     return a * p_Arg * p_Arg + b * p_Arg + c;
 }
 
+/*
+* PreCondition: N/A
+* PostCondition: Return the class as a string
+* 
+* @return The quadratic expression as a string
+*/
 std::string Quadratic::to_string() const
 {
     std::stringstream ss;
@@ -34,32 +47,67 @@ std::string Quadratic::to_string() const
     return ss.str();
 }
 
+/*
+* PreCondition: N/A
+* PostCondition: Reset the class to default values
+*/
 void Quadratic::Clear()
 {
     a = 0.f, b = 0.f, c = 0.f;
 }
 
+/*
+* PreCondition: N/A
+* PostCondition: Return the discriminant of the expression
+* 
+* @return The discriminant of the quadratic expression
+*/
 float Quadratic::GetDiscriminant() const
 {
     return b * b - 4 * a * c;
 }
 
+/*
+* PreCondition: N/A
+* PostCondition: Return true if the expression is linear, otherwise, return false
+* 
+* @return A boolean statement determining if the expression is linear
+*/
 bool Quadratic::IsLinear() const
 {
     return a == 0;
 }
 
+/*
+* PreCondition: N/A
+* PostCondition: Return true if the expression is constant, otherwise, return false
+*
+* @return A boolean statement determining if the expression is constant
+*/
 bool Quadratic::IsConstant() const
 {
     return (a == 0 && b == 0);
 }
 
-
+/*
+* PreCondition: The value, x, to use to evaluate the expression
+* PostCondition: Return the result of the expression at the given value (x)
+* 
+* @param The value (x) to evaluate the expression at
+* @return The result when the value (x) is plugged into the expression
+*/
 float Quadratic::operator()(float p_Arg) const
 {
     return this->EvaluateAt(p_Arg);
 }
 
+/*
+* PreCondition: The number of coefficient (ex: 1, 2, 3)
+* PostCondition: Return the value of the coefficient
+* 
+* @param The number of the coefficient
+* @return The value of the given coefficient
+*/
 float& Quadratic::operator[](size_t p_CoeffNum)
 {
     switch (p_CoeffNum)
@@ -76,6 +124,12 @@ float& Quadratic::operator[](size_t p_CoeffNum)
     }
 }
 
+/*
+* PreCondition: N/A
+* PostCondition: Return the number of roots the expression has
+* 
+* @return The number of roots the expression has
+*/
 size_t Quadratic::GetNumOfRoots() const
 {
     if (IsConstant() && c == 0)
@@ -100,6 +154,12 @@ size_t Quadratic::GetNumOfRoots() const
 
 }
 
+/*
+* PreCondition: N/A
+* PostCondition: Return the roots of the expression
+* 
+* @return The roots of the expression
+*/
 Roots Quadratic::GetRoots() const
 {
     if (this->GetNumOfRoots() >= 0)
@@ -108,6 +168,12 @@ Roots Quadratic::GetRoots() const
         return { Roots::complex, Roots::complex };
 }
 
+/*
+* PreCondition: N/A
+* PostCondition: Return a string containing the roots of the expression
+* 
+* @return The roots pf the expression as a string
+*/
 std::string Quadratic::GetRootsAsString() const
 {
     std::stringstream ss;

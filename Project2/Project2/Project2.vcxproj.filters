@@ -30,9 +30,6 @@
     <ClCompile Include="src\PseudoRandom.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\BenchmarkHandler.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\ExceptionInterface.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -51,9 +48,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\PseudoRandom.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\BenchmarkHandler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\ExceptionInterface.h">
