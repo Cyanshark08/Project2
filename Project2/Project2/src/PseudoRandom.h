@@ -8,41 +8,41 @@ public:
     class E_InvalidModulus : public ExceptionInterface
     {
     private:
-        int32_t modulus;
+        int64_t modulus;
 
     private:
         std::string GetExceptionName() const override;
         std::string GetExceptionMessage() const override;
 
     public:
-        E_InvalidModulus(int32_t mod) : modulus(mod) {}
+        E_InvalidModulus(int64_t mod) : modulus(mod) {}
     };
 
     PseudoRandom();
-    PseudoRandom(int32_t seed, int32_t multiplier, int32_t increment, int32_t modulus);
+    PseudoRandom(int64_t seed, int64_t multiplier, int64_t increment, int64_t modulus);
 
     void Clear();
 
     // Accessors
-    int32_t getSeed() const;
-    int32_t getMultiplier() const;
-    int32_t getModulus() const;
-    int32_t getIncrement() const;
+    int64_t getSeed() const;
+    int64_t getMultiplier() const;
+    int64_t getModulus() const;
+    int64_t getIncrement() const;
 
     // Mutators
-    void setSeed(int32_t newSeed);
-    void setMultiplier(int32_t newMultiplier);
-    void setModulus(int32_t newModulus);
-    void setIncrement(int32_t newIncrement);
+    void setSeed(int64_t newSeed);
+    void setMultiplier(int64_t newMultiplier);
+    void setModulus(int64_t newModulus);
+    void setIncrement(int64_t newIncrement);
 
     // Operations
-    int32_t getNextNumber();
-    int32_t getIndirectNextNumber();
+    int64_t getNextNumber();
+    int64_t getIndirectNextNumber();
 
 private:
-    int32_t m_seed;
-    int32_t m_multiplier;
-    int32_t m_increment;
-    int32_t m_modulus;
-    int32_t m_current;
+    int64_t m_seed;
+    int64_t m_multiplier;
+    int64_t m_increment;
+    int64_t m_modulus;
+    int64_t m_current;
 };

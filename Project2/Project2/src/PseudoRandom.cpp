@@ -14,7 +14,7 @@ PseudoRandom::PseudoRandom()
 * PreCondition: All parameters must be integers, modulus cannot be 0
 * PostCondition: Initializes with specified values
 */
-PseudoRandom::PseudoRandom(int32_t seed, int32_t multiplier, int32_t increment, int32_t modulus)
+PseudoRandom::PseudoRandom(int64_t seed, int64_t multiplier, int64_t increment, int64_t modulus)
     : m_seed(seed), m_multiplier(multiplier), m_increment(increment), m_modulus(modulus), m_current(seed)
 {
     if (modulus == 0)
@@ -34,30 +34,30 @@ void PseudoRandom::Clear()
     m_current = 1;
 }
 
-int32_t PseudoRandom::getSeed() const { return m_seed; }
-int32_t PseudoRandom::getMultiplier() const { return m_multiplier; }
-int32_t PseudoRandom::getModulus() const { return m_modulus; }
-int32_t PseudoRandom::getIncrement() const { return m_increment; }
+int64_t PseudoRandom::getSeed() const { return m_seed; }
+int64_t PseudoRandom::getMultiplier() const { return m_multiplier; }
+int64_t PseudoRandom::getModulus() const { return m_modulus; }
+int64_t PseudoRandom::getIncrement() const { return m_increment; }
 
-void PseudoRandom::setSeed(int32_t newSeed)
+void PseudoRandom::setSeed(int64_t newSeed)
 {
     m_seed = newSeed;
     m_current = newSeed;
 }
 
-void PseudoRandom::setMultiplier(int32_t newMultiplier)
+void PseudoRandom::setMultiplier(int64_t newMultiplier)
 {
     m_multiplier = newMultiplier;
 }
 
-void PseudoRandom::setModulus(int32_t newModulus)
+void PseudoRandom::setModulus(int64_t newModulus)
 {
     if (newModulus == 0)
         throw E_InvalidModulus(newModulus);
     m_modulus = newModulus;
 }
 
-void PseudoRandom::setIncrement(int32_t newIncrement)
+void PseudoRandom::setIncrement(int64_t newIncrement)
 {
     m_increment = newIncrement;
 }
@@ -67,10 +67,18 @@ void PseudoRandom::setIncrement(int32_t newIncrement)
 * PostCondition: Returns the next pseudorandom number using linear congruential method
 * @return Next pseudorandom number
 */
-int32_t PseudoRandom::getNextNumber()
+int64_t PseudoRandom::getNextNumber()
 {
-    m_current = (m_multiplier * m_current + m_increment) % m_modulus;
-    return m_current;
+    // Use safe calculation to prevent overflow
+    int64_t product = (m_multiplier * m_current) % m_modulus;
+    int64_t sum = (product + m_increment) % m_modulus;
+
+    // Handle negative results
+    if (sum < 0)
+        sum += m_modulus;
+
+    m_current = sum;
+    return sum;
 }
 
 /*
@@ -78,9 +86,15 @@ int32_t PseudoRandom::getNextNumber()
 * PostCondition: Returns the next pseudorandom number without storing it
 * @return Next pseudorandom number
 */
-int32_t PseudoRandom::getIndirectNextNumber()
+int64_t PseudoRandom::getIndirectNextNumber()
 {
-    return (m_multiplier * m_current + m_increment) % m_modulus;
+    int64_t product = (m_multiplier * m_current) % m_modulus;
+    int64_t sum = (product + m_increment) % m_modulus;
+
+    if (sum < 0)
+        sum += m_modulus;
+
+    return sum;
 }
 
 // Exception implementations

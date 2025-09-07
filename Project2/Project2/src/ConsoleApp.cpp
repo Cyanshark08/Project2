@@ -300,21 +300,21 @@ void ConsoleApp::HandleInput(char p_Input)
 		switch (p_Input)
 		{
 		case 'A': // Get seed
-			printf("\n\tSeed: %d\n", m_RandomNumber.getSeed());
+			printf("\n\tSeed: %lld\n", m_RandomNumber.getSeed());
 			break;
 		case 'B': // Set seed
 			m_RandomNumber.setSeed(Input::inputInteger("\n\tEnter new seed: "));
 			printf("\n\tSeed set successfully.\n");
 			break;
 		case 'C': // Get multiplier
-			printf("\n\tMultiplier: %d\n", m_RandomNumber.getMultiplier());
+			printf("\n\tMultiplier: %lld\n", m_RandomNumber.getMultiplier());
 			break;
 		case 'D': // Set multiplier
 			m_RandomNumber.setMultiplier(Input::inputInteger("\n\tEnter new multiplier: "));
 			printf("\n\tMultiplier set successfully.\n");
 			break;
 		case 'E': // Get modulus
-			printf("\n\tModulus: %d\n", m_RandomNumber.getModulus());
+			printf("\n\tModulus: %lld\n", m_RandomNumber.getModulus());
 			break;
 		case 'F': // Set modulus
 			try
@@ -328,35 +328,55 @@ void ConsoleApp::HandleInput(char p_Input)
 			}
 			break;
 		case 'G': // Get increment
-			printf("\n\tIncrement: %d\n", m_RandomNumber.getIncrement());
+			printf("\n\tIncrement: %lld\n", m_RandomNumber.getIncrement());
 			break;
 		case 'H': // Set increment
 			m_RandomNumber.setIncrement(Input::inputInteger("\n\tEnter new increment: "));
 			printf("\n\tIncrement set successfully.\n");
 			break;
 		case 'I': // Get next number
-			printf("\n\tNext number: %d\n", m_RandomNumber.getNextNumber());
+			printf("\n\tNext number: %lld\n", m_RandomNumber.getNextNumber());
 			break;
 		case 'J': // Get indirect next number
-			printf("\n\tIndirect next number: %d\n", m_RandomNumber.getIndirectNextNumber());
+			printf("\n\tIndirect next number: %lld\n", m_RandomNumber.getIndirectNextNumber());
 			break;
 		case 'K': // Run experiment
 		{
 			printf("\n\tRunning experiment with different values...\n");
 
-			// Test with different parameters
-			PseudoRandom exp1(123, 75, 74, 65537);
-			printf("\n\tExperiment 1 (123,75,74,65537): ");
-			for (int i = 0; i < 5; i++)
+			try
 			{
-				printf("%d ", exp1.getNextNumber());
-			}
+				// Test with different parameters - use numbers that fit in int64_t
+				PseudoRandom exp1(123, 75, 74, 10007);
+				printf("\n\tExperiment 1 (123,75,74,10007): ");
+				for (int i = 0; i < 5; i++)
+				{
+					printf("%lld ", exp1.getNextNumber());
+				}
 
-			PseudoRandom exp2(456, 1664525, 1013904223, 4294967296);
-			printf("\n\tExperiment 2 (456,1664525,1013904223,4294967296): ");
-			for (int i = 0; i < 5; i++)
+				// Use numbers that don't cause overflow
+				PseudoRandom exp2(456, 16645, 10139, 100000);
+				printf("\n\tExperiment 2 (456,16645,10139,100000): ");
+				for (int i = 0; i < 5; i++)
+				{
+					printf("%lld ", exp2.getNextNumber());
+				}
+
+				// Test with the original default values
+				printf("\n\tDefault values (1,40,3641,729): ");
+				PseudoRandom exp3;
+				for (int i = 0; i < 5; i++)
+				{
+					printf("%lld ", exp3.getNextNumber());
+				}
+			}
+			catch (const ExceptionInterface &e)
 			{
-				printf("%d ", exp2.getNextNumber());
+				printf("%s", e.Message().c_str());
+			}
+			catch (const std::exception &e)
+			{
+				printf("\n\tERROR: %s\n", e.what());
 			}
 			break;
 		}
