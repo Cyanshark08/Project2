@@ -9,6 +9,10 @@ ConsoleApp::ConsoleApp()
 	m_MenuState(EMenuState::Main)
 {}
 
+/*
+* Precondition: N/A
+* Postcondition: Displays menu if running; otherwise cleans app
+*/
 void ConsoleApp::ManageApp()
 {
 	switch (m_AppState)
@@ -23,6 +27,10 @@ void ConsoleApp::ManageApp()
 
 }
 
+/*
+* Precondition: N/A
+* Postcondition: Displays menu
+*/
 void ConsoleApp::DisplayMenu()
 {
 	char input = '\0';
@@ -133,6 +141,10 @@ void ConsoleApp::DisplayMenu()
 	std::system("cls");
 }
 
+/*
+* Precondition: User must input a character - options vary by menu state
+* Postcondition: Displays correct menu
+*/
 void ConsoleApp::HandleInput(char p_Input)
 {
 	switch (m_MenuState)
@@ -474,9 +486,23 @@ void ConsoleApp::HandleInput(char p_Input)
 	}
 }
 
-void ConsoleApp::Clean()
-{}
 
+/*
+* Precondition: N/A
+* Postcondition: Cleans app
+*/
+void ConsoleApp::Clean()
+{
+	m_RandomNumber.Clear();
+	m_QuadraticExpression.Clear();
+	m_RationalNumber1.Clear();
+	m_RationalNumber2.Clear();
+}
+
+/*
+* Precondition: N/A
+* Postcondition: Returns app state
+*/
 EAppState ConsoleApp::GetAppState() const
 {
 	return m_AppState;
